@@ -20,15 +20,30 @@ handles.ConfigureOutputChannelButton = uicontrol('Position',[300 540 140 50],'St
 handles.InputChannelsPanel = uipanel('Title','Input Channels','FontSize',12,'units','pixels','pos',[15 330 200 200]);
 handles.OutputChannelsPanel = uipanel('Title','Output Channels','FontSize',12,'units','pixels','pos',[235 330 200 200]);
 
+% daq controls
+handles.ChooseDAQControl = uicontrol(handles.f1,'Style','popupmenu','String',{'Demo DAQ'},'Value',1,'FontSize',8,'Position',[160 550 140 40],'Callback',@RandomiseControlCallback);
+uicontrol(handles.f1,'Position',[170 530 20 30],'Style','text','String','w=');
+handles.SamplingRateControl = uicontrol(handles.f1,'Position',[195 540 50 25],'Style','edit','String','1000','Callback',@SamplingRateCallback);
+
 % control tab group
 handles.TabGroup = uitabgroup(handles.f1,'Units','points','Position',[10 10 425 300]);
-handles.ParadigmTab = uitab(handles.TabGroup,'Title','Configure Paradigms');
+handles.ParadigmTab = uitab(handles.TabGroup,'Title','Paradigm Control');
 handles.ManualControlTab = uitab(handles.TabGroup,'Title','Manual Control');
+handles.SaveTab = uitab(handles.TabGroup,'Title','Save');
 handles.MetadataTab = uitab(handles.TabGroup,'Title','Metadata');
+
+% paradigm tab
+handles.ConfigureControlSignalsButton = uicontrol(handles.ParadigmTab,'Position',[10 220 180 30],'Style','pushbutton','Enable','off','String','Configure Control','FontSize',10,'Callback',@ConfigureControlSignals);
+
+% run, pause and abort
+handles.RunButton = uicontrol(handles.ParadigmTab,'Position',[10 10 100 30],'Style','pushbutton','Enable','off','String','Run','FontSize',10,'Callback',@RunTrial);
+handles.PauseButton = uicontrol(handles.ParadigmTab,'Position',[170 10  100 30],'Style','pushbutton','Enable','off','String','Pause','FontSize',10,'Callback',@Pause);
+handles.AbortButton = uicontrol(handles.ParadigmTab,'Position',[280 10 100 30],'Style','pushbutton','Enable','off','String','Abort','FontSize',10,'Callback',@Abort);
+
 
     return
 
-        ConfigureControlSignalsButton = uicontrol('Position',[305 540 140 50],'Style','pushbutton','Enable','off','String','Configure Control','FontSize',10,'Callback',@ConfigureControlSignals);
+
 
     PlotInputsList = {};
     PlotOutputsList = {};
