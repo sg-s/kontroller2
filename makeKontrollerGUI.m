@@ -26,7 +26,7 @@ uicontrol(handles.f1,'Position',[170 530 20 30],'Style','text','String','w=');
 handles.SamplingRateControl = uicontrol(handles.f1,'Position',[195 540 50 25],'Style','edit','String','1000','Callback',@SamplingRateCallback);
 
 % control tab group
-handles.TabGroup = uitabgroup(handles.f1,'Units','points','Position',[10 10 425 300]);
+handles.TabGroup = uitabgroup(handles.f1,'Units','points','Position',[10 10 320 230]);
 handles.ParadigmTab = uitab(handles.TabGroup,'Title','Paradigm Control');
 handles.ManualControlTab = uitab(handles.TabGroup,'Title','Manual Control');
 handles.SaveTab = uitab(handles.TabGroup,'Title','Save');
