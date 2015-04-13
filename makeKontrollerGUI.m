@@ -10,13 +10,26 @@ function handles = makeKontrollerGUI(VersionName)
 handles.f1 = figure('Position',[20 60 450 700],'Toolbar','none','Menubar','none','Name',strrep(VersionName,'_',''),'NumberTitle','off','Resize','off','HandleVisibility','on','CloseRequestFcn',@QuitKontroller2Callback);
 
 
-return
+% konsole
+handles.Konsole = uicontrol('Position',[15 600 425 90],'Style','text','String','Kontroller is starting...','FontName','Courier','HorizontalAlignment','left');
 
-    Konsole = uicontrol('Position',[15 600 425 90],'Style','text','String','Kontroller is starting...','FontName','Courier','HorizontalAlignment','left');
-    ConfigureInputChannelButton = uicontrol('Position',[15 540 140 50],'Style','pushbutton','Enable','off','String','Configure Inputs','FontSize',10,'Callback',@ConfigureInputChannels);
-    ConfigureOutputChannelButton = uicontrol('Position',[160 540 140 50],'Style','pushbutton','Enable','off','String','Configure Outputs','FontSize',10,'Callback',@ConfigureOutputChannels);
-    ConfigureControlSignalsButton = uicontrol('Position',[305 540 140 50],'Style','pushbutton','Enable','off','String','Configure Control','FontSize',10,'Callback',@ConfigureControlSignals);
-    InputChannelsPanel = uipanel('Title','Input Channels','FontSize',12,'units','pixels','pos',[15 330 240 200]);
+
+% inputs and outputs
+handles.ConfigureInputChannelButton = uicontrol('Position',[15 540 140 50],'Style','pushbutton','Enable','off','String','Configure Inputs','FontSize',10,'Callback',@ConfigureInputChannels);
+handles.ConfigureOutputChannelButton = uicontrol('Position',[300 540 140 50],'Style','pushbutton','Enable','off','String','Configure Outputs','FontSize',10,'Callback',@ConfigureOutputChannels);
+handles.InputChannelsPanel = uipanel('Title','Input Channels','FontSize',12,'units','pixels','pos',[15 330 200 200]);
+handles.OutputChannelsPanel = uipanel('Title','Output Channels','FontSize',12,'units','pixels','pos',[235 330 200 200]);
+
+% control tab group
+handles.TabGroup = uitabgroup(handles.f1,'Units','points','Position',[10 10 425 300]);
+handles.ParadigmTab = uitab(handles.TabGroup,'Title','Configure Paradigms');
+handles.ManualControlTab = uitab(handles.TabGroup,'Title','Manual Control');
+handles.MetadataTab = uitab(handles.TabGroup,'Title','Metadata');
+
+    return
+
+        ConfigureControlSignalsButton = uicontrol('Position',[305 540 140 50],'Style','pushbutton','Enable','off','String','Configure Control','FontSize',10,'Callback',@ConfigureControlSignals);
+
     PlotInputsList = {};
     PlotOutputsList = {};
     PlotInputs = uicontrol(InputChannelsPanel,'Position',[3 3 230 170],'Style','listbox','Min',0,'Max',2,'String',PlotInputsList,'FontSize',11);
