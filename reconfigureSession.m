@@ -26,7 +26,7 @@ if length(InputChannelNames)
 end
 
 handles.dataListener = s.addlistener('DataAvailable',@DataRouter);
-s.startBackground;
+% s.startBackground;
 
 
 setappdata(handles.f1,'s',s);

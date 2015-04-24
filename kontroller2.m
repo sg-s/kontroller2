@@ -45,6 +45,17 @@ if ~isempty(InputChannelNames)
 end
 set(handles.InputChannelsList,'String',temp,'Value',1)
 OutputChannelNames = cache('OutputChannelNames');
+temp = '';
+if ~isempty(OutputChannelNames)
+    % add to the list of input channels
+    temp = {};
+    for i = 1:length(OutputChannelNames)
+        if ~isempty(OutputChannelNames{i})
+            temp{end+1} = OutputChannelNames{i};
+        end
+    end
+end
+set(handles.OutputChannelsList,'String',temp,'Value',1)
 setappdata(handles.f1,'InputChannelNames',InputChannelNames);
 setappdata(handles.f1,'OutputChannelNames',OutputChannelNames);
 

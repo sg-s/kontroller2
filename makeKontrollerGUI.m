@@ -25,6 +25,8 @@ handles.ConfigureOutputChannelButton = uicontrol('Position',[300 540 140 50],'St
 handles.InputChannelsPanel = uipanel('Title','Input Channels','FontSize',12,'units','pixels','pos',[15 330 200 200]);
 handles.InputChannelsList = uicontrol(handles.InputChannelsPanel,'Style','listbox','Min',0,'Max',2,'FontSize',12,'units','pixels','Units','normalized','Position',[0 0 1 1],'String','','Callback',@InputChannelsListCallback);
 handles.OutputChannelsPanel = uipanel('Title','Output Channels','FontSize',12,'units','pixels','pos',[235 330 200 200]);
+handles.OutputChannelsList = uicontrol(handles.OutputChannelsPanel,'Style','listbox','Min',0,'Max',2,'FontSize',12,'units','pixels','Units','normalized','Position',[0 0 1 1],'String','');
+
 
 % daq controls
 handles.ChooseDAQControl = uicontrol(handles.f1,'Style','popupmenu','String',{'Demo DAQ'},'Value',1,'FontSize',8,'Position',[160 550 140 40],'Callback',@RandomiseControlCallback);

@@ -2,7 +2,7 @@ function [] =ConfigureInputChannels(src,~)
 
 % get the DAQ structure and handles sructure
 d = getappdata(get(src,'Parent'),'d'); 
-handles = getappdata(get(src,'Parent'),'handles'); 
+global handles
 
 n = get(d.Subsystems(1),'NumberOfChannelsAvailable');
 Height = 600;
@@ -73,7 +73,6 @@ else
     error('Kontroller error 676: Odd number of channels, cannot handle this')
 end
 
-setappdata(handles.f1,'handles',handles);
 setappdata(handles.f1,'InputChannelNames',InputChannelNames);
 setappdata(handles.ConfigureInputsFigure,'handles',handles);
 
