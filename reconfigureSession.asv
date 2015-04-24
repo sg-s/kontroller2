@@ -45,8 +45,7 @@ end
 
 % configure listeners
 if isfield(handles,'dataListener')
-    delete(handles.dataListener);
-end
+    
 handles.dataListener = s.addlistener('DataAvailable',@DataRouter);
 % s.startBackground;
 

@@ -1,6 +1,6 @@
 function [] = InputConfigCallback(src,~)
 
-handles = getappdata(get(src,'Parent'),'handles');
+global handles
  
 % update InputChannelNames
 InputChannelNames = getappdata(handles.f1,'InputChannelNames');

@@ -9,8 +9,8 @@ OutputChannels =  d(1).Subsystems(2).ChannelNames;
 n = length(OutputChannels);
 
 Height = (n/2)*50;
-handles.ConfigureOuputsFigure = figure('Position',[80 80 450 Height+50],'Toolbar','none','Menubar','none','resize','off','Name','Configure Analogue Input Channels','NumberTitle','off');
-uicontrol(handles.ConfigureOuputsFigure,'Position',[25 600 400 40],'style','text','String','To reduce channel cross-talk, label shorted channels as "Ground". These will not be recorded from.','FontSize',8);
+handles.ConfigureOutputsFigure = figure('Position',[80 80 450 Height+50],'Toolbar','none','Menubar','none','resize','off','Name','Configure Analogue Input Channels','NumberTitle','off');
+uicontrol(handles.ConfigureOutputsFigure,'Position',[25 600 400 40],'style','text','String','To reduce channel cross-talk, label shorted channels as "Ground". These will not be recorded from.','FontSize',8);
 a = axes; hold on
 set(a,'Visible','off');
 
@@ -30,16 +30,16 @@ if floor(n/2)*2 == n
     for i = 1:n/2  % left side
         this_channel = i;
         
-        uicontrol(handles.ConfigureOuputsFigure,'Position',[160 10+Height-i*nspacing 50 20],'Style', 'text','String',OutputChannels{i},'FontSize',12);
-        handles.ConfigureOuputs(this_channel) = uicontrol(handles.ConfigureOuputsFigure,'Position',[40 10+Height-i*nspacing 100 20],'Style', 'edit','String',OutputChannelNames{i},'FontSize',12,'Callback',@OutputConfigCallback); 
+        uicontrol(handles.ConfigureOutputsFigure,'Position',[160 10+Height-i*nspacing 50 20],'Style', 'text','String',OutputChannels{i},'FontSize',12);
+        handles.ConfigureOutputs(this_channel) = uicontrol(handles.ConfigureOutputsFigure,'Position',[40 10+Height-i*nspacing 100 20],'Style', 'edit','String',OutputChannelNames{i},'FontSize',12,'Callback',@OutputConfigCallback); 
   
         
     end
     for i = 1:n/2  % left side
         this_channel = i+n/2;
         
-        uicontrol(handles.ConfigureOuputsFigure,'Position',[220 10+Height-i*nspacing 50 20],'Style', 'text','String',OutputChannels{this_channel},'FontSize',12);
-        handles.ConfigureOuputs(this_channel) = uicontrol(handles.ConfigureOuputsFigure,'Position',[300 10+Height-i*nspacing 100 20],'Style', 'edit','String',OutputChannelNames{this_channel},'FontSize',12,'Callback',@OutputConfigCallback);
+        uicontrol(handles.ConfigureOutputsFigure,'Position',[220 10+Height-i*nspacing 50 20],'Style', 'text','String',OutputChannels{this_channel},'FontSize',12);
+        handles.ConfigureOutputs(this_channel) = uicontrol(handles.ConfigureOutputsFigure,'Position',[300 10+Height-i*nspacing 100 20],'Style', 'edit','String',OutputChannelNames{this_channel},'FontSize',12,'Callback',@OutputConfigCallback);
 
         
     end
@@ -49,7 +49,6 @@ else
 end
 
 setappdata(handles.f1,'OutputChannelNames',OutputChannelNames);
-setappdata(handles.ConfigureOuputsFigure,'handles',handles);
 
 % add to the list of input channels
 temp = {};
