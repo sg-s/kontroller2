@@ -66,7 +66,9 @@ end
 scsz = get(0,'ScreenSize');
 handles.scope_fig = figure('Position',[500 100 scsz(3)-500 scsz(4)-200],'Toolbar','none','Name','Kontroller2 Oscilloscope','NumberTitle','off','Resize','on','Visible','on','CloseRequestFcn',@QuitKontroller2Callback); hold on; 
 uicontrol(handles.scope_fig,'Style','text','FontSize',8,'String','Plot only last','Position',[100 scsz(4)-220 100 20])
-handles.scope_NSamples=uicontrol(handles.scope_fig,'Style','edit','FontSize',8,'String','Inf','Position',[200 scsz(4)-220 70 22],'Callback',@RefreshScopes);
+handles.scope_NSamples=uicontrol(handles.scope_fig,'Style','edit','FontSize',8,'String','1000','Position',[200 scsz(4)-220 70 22],'Callback',@RefreshScopes);
 uicontrol(handles.scope_fig,'Style','text','FontSize',8,'String','samples','Position',[270 scsz(4)-220 100 20])
-
+handles.plot_data(1) = plot(NaN,NaN);
+set(handles.plot_data(1),'XData',NaN(str2double(get(handles.scope_NSamples,'String')),1),'YData',NaN(str2double(get(handles.scope_NSamples,'String')),1));
+    
 

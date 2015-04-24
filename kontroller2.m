@@ -29,6 +29,7 @@ else
 end
 
 % make the gui
+global handles
 handles = makeKontrollerGUI(VersionName);
 
 % here are the core variables

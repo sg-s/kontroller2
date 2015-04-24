@@ -1,0 +1,4 @@
+function InputChannelsListCallback(src,event)
+
+global handles
+% wipe all the subplots in scope_fig

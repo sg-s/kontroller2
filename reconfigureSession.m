@@ -1,5 +1,10 @@
 function reconfigureSession(handles)
 s = getappdata(handles.f1,'s');
+
+if s.IsRunning
+    s.stop;
+end
+
 d = getappdata(handles.f1,'d');
 InputChannelNames = getappdata(handles.f1,'InputChannelNames');
 

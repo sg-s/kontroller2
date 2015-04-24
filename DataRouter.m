@@ -1,3 +1,3 @@
-function DataRouter(src,event,dd)
+function DataRouter(src,event)
 
-keyboard
+UpdateScopes(src,event);
