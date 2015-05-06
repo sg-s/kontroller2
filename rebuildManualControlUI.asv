@@ -1,0 +1,23 @@
+function [] = rebuildManualControlUI()
+global handles
+
+if isfield(handles,'ManualControlSliders')
+    delete(handles.ManualControlSliders);
+end
+
+if isempty(get(handles.ManualControlTab,'Children'))
+    % terra nova
+    noutputs = length(get(handles.OutputChannelsList,'String'));
+    maxwidth=.1;
+    w = .05;
+    x = .1;
+    for i = 1:noutputs
+        handles.ManualControlSliders(i) = uicontrol(handles.ManualControlTab,'style','slider','Value',0,'Units','normalized','Position',[.1+x .1 w .8]);
+        handles.ManualControlSliderLabels(i) = uicontrol(handles.ManualControlTab,'style','text','String',
+        x = x+(1/(noutputs+1));
+    end
+    
+else
+    % there is already something here, need to rebuild
+    keyboard
+end

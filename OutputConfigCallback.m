@@ -9,12 +9,9 @@ setappdata(handles.f1,'OutputChannelNames',OutputChannelNames);
 cache('OutputChannelNames',[]);
 cache('OutputChannelNames',OutputChannelNames);
 
-% colour it green if it's ground
-if strcmpi('Ground',get(src,'String'))
-     set(src,'ForegroundColor',[0 1 0]);
-end
 
-% add to the list of input channels
+
+% add to the list of output channels
 temp = {};
 for i = 1:length(OutputChannelNames)
     if ~isempty(OutputChannelNames{i})
@@ -23,5 +20,8 @@ for i = 1:length(OutputChannelNames)
 end
 set(handles.OutputChannelsList,'String',temp,'Value',1)
 
+% rebuild the UI for manual control
+rebuildManualControlUI;
+
 % reconfigure session
-reconfigureSession(handles);
+reconfigureSession();

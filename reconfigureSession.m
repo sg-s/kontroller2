@@ -1,5 +1,9 @@
-function reconfigureSession(handles)
+% reconfigureSession
+% part of the kontroller2 package
+function [] = reconfigureSession()
+global handles 
 s = getappdata(handles.f1,'s');
+WriteBugger = getappdata(handles.f1,'WriteBuffer');
 
 if s.IsRunning
     s.stop;
@@ -32,12 +36,14 @@ end
 
 % configure analgoue outputs
 OutputChannels = get(d.Subsystems(2),'ChannelNames');
+noutputs = 0;
 if ~isempty(OutputChannelNames)
     for i = 1:length(OutputChannelNames)
         if ~isempty(OutputChannelNames{i})
             % add if not already added
             if ~any(find(strcmp({s.Channels.ID},OutputChannels{i}))) || isempty({s.Channels.ID})
                 s.addAnalogOutputChannel('Dev1',OutputChannels{i},'Voltage');
+                noutputs = noutputs+1;
             end
         end
     end
@@ -48,7 +54,19 @@ if isfield(handles,'dataListener')
     delete(handles.dataListener);
 end
 handles.dataListener = s.addlistener('DataAvailable',@DataRouter);
-% s.startBackground;
+
+if isfield(handles,'grabDataListener')
+    delete(handles.grabDataListener);
+end
+handles.grabDataListener = s.addlistener('DataRequired',@DataRouter);
+
+% queue some filler data
+WriteBuffer = zeros(s.NotifyWhenScansQueuedBelow,noutputs);
+
+% start the task
+s.queueOutputData(WriteBuffer);
+s.startBackground;
 
 
 setappdata(handles.f1,'s',s);
+setappdata(handles.f1,'WriteBuffer',WriteBuffer);

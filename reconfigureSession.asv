@@ -1,4 +1,7 @@
-function reconfigureSession(handles)
+% reconfigureSession
+% part of the kontroller2 package
+function [] = reconfigureSession()
+global handles
 s = getappdata(handles.f1,'s');
 
 if s.IsRunning
@@ -45,9 +48,20 @@ end
 
 % configure listeners
 if isfield(handles,'dataListener')
-    
+    delete(handles.dataListener);
+end
 handles.dataListener = s.addlistener('DataAvailable',@DataRouter);
-% s.startBackground;
+
+if isfield(handles,'grabDataListener')
+    delete(handles.grabDataListener);
+end
+handles.grabDataListener = s.addlistener('DataRequired',@DataRouter);
+
+% queue some filler data
+
+
+% start the task
+%s.startBackground;
 
 
 setappdata(handles.f1,'s',s);
