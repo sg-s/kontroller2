@@ -7,7 +7,12 @@ WriteBugger = getappdata(handles.f1,'WriteBuffer');
 
 if s.IsRunning
     s.stop;
+    s.release;
 end
+
+
+clear('s');
+s = daq.createSession('ni');
 
 d = getappdata(handles.f1,'d');
 InputChannelNames = getappdata(handles.f1,'InputChannelNames');
@@ -63,10 +68,9 @@ handles.grabDataListener = s.addlistener('DataRequired',@DataRouter);
 % queue some filler data
 WriteBuffer = zeros(s.NotifyWhenScansQueuedBelow,noutputs);
 
+setappdata(handles.f1,'s',s);
+setappdata(handles.f1,'WriteBuffer',WriteBuffer);
+
 % start the task
 s.queueOutputData(WriteBuffer);
 s.startBackground;
-
-
-setappdata(handles.f1,'s',s);
-setappdata(handles.f1,'WriteBuffer',WriteBuffer);

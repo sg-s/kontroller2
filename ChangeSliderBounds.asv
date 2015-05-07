@@ -1,0 +1,24 @@
+function ChangeSliderBounds(src,~)
+global handles
+if any (handles.ManualControlSliderLB == src)
+    new_value = str2double(get(src,'String'));
+    if isnan(new_value)
+        return
+    else
+        if new_value < cell2mat(get(handles.ManualControlSliders,'Max'))
+            set(handles.ManualControlSliders(handles.ManualControlSliderLB == src),'Min',new_value);
+        else
+            new_value = cell2mat(get(handles.ManualControlSliders,'Max')) - 1;
+            set(handles.ManualControlSliders(handles.ManualControlSliderLB == src),'Min',new_value);
+        end
+    end
+elseif any (handles.ManualControlSliderUB == src)
+    new_value = str2double(get(src,'String'));
+    if isnan(new_value)
+        return
+    elseif new_value > cell2mat(get(handles.ManualControlSliders,'Min'))
+        set(handles.ManualControlSliders(handles.ManualControlSliderUB == src),'Max',new_value);
+    end
+else
+    % wtf? ignore
+end

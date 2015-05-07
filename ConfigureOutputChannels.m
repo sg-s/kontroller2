@@ -4,6 +4,8 @@ function [] =ConfigureOutputChannels(~,~)
 global handles
 d = getappdata(handles.f1,'d'); 
 
+
+
 % do the analgue outputs
 OutputChannels =  d(1).Subsystems(2).ChannelNames;
 n = length(OutputChannels);

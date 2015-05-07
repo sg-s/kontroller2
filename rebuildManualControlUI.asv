@@ -5,19 +5,38 @@ if isfield(handles,'ManualControlSliders')
     delete(handles.ManualControlSliders);
 end
 
-if isempty(get(handles.ManualControlTab,'Children'))
-    % terra nova
-    noutputs = length(get(handles.OutputChannelsList,'String'));
-    maxwidth=.1;
-    w = .05;
-    x = .1;
-    for i = 1:noutputs
-        handles.ManualControlSliders(i) = uicontrol(handles.ManualControlTab,'style','slider','Value',0,'Units','normalized','Position',[.1+x .1 w .8]);
-        handles.ManualControlSliderLabels(i) = uicontrol(handles.ManualControlTab,'style','text','String',
-        x = x+(1/(noutputs+1));
-    end
+if isfield(handles,'ManualControlSliderLabels')
+    delete(handles.ManualControlSliderLabels);
+end
+
+if isfield(handles,'ManualControlSliderLB')
+    delete(handles.ManualControlSliderLB);
+end
+
+if isfield(handles,'ManualControlSliderUB')
+    delete(handles.ManualControlSliderUB);
+end
+
+
+
+
+if ~isempty(get(handles.ManualControlTab,'Children'))
+    delete(get(handles.ManualControlTab,'Children'))
+end
+% terra nova
+OutputNames = get(handles.OutputChannelsList,'String');
+noutputs = length(OutputNames);
+maxwidth=.1;
+w = .05;
+x = .1;
+if ~noutputs
+    return
+end
+for i = 1:noutputs
+    handles.ManualControlSliders(i) = uicontrol(handles.ManualControlTab,'style','slider','Value',0,'Units','normalized','Position',[.1+x .1 w .8]);
+    handles.ManualControlSliderLabels(i) = uicontrol(handles.ManualControlTab,'style','text','String',OutputNames{i},'Units','normalized','Position',[.1+x-(w) .01 3*w .1]);
     
-else
-    % there is already something here, need to rebuild
-    keyboard
+    % add controls 
+    
+    x = x+(1/(noutputs+1));
 end
