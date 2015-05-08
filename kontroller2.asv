@@ -45,9 +45,10 @@ if ~isempty(InputChannelNames)
 end
 set(handles.InputChannelsList,'String',temp,'Value',1)
 OutputChannelNames = cache('OutputChannelNames');
+OutputChannelNames = cache('DigitalOutputChannelNames');
 temp = '';
 if ~isempty(OutputChannelNames)
-    % add to the list of input channels
+    % add to the list of output channels
     temp = {};
     for i = 1:length(OutputChannelNames)
         if ~isempty(OutputChannelNames{i})
@@ -58,6 +59,7 @@ end
 set(handles.OutputChannelsList,'String',temp,'Value',1)
 setappdata(handles.f1,'InputChannelNames',InputChannelNames);
 setappdata(handles.f1,'OutputChannelNames',OutputChannelNames);
+rebuildManualControlUI;
 
 % look for DAQs
 try
@@ -88,6 +90,6 @@ end
 s = daq.createSession('ni');
 setappdata(handles.f1,'s',s);
 
-handles = reconfigureSession();
+reconfigureSession();
 
 

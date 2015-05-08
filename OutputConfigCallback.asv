@@ -4,6 +4,7 @@ global handles
 
 % update OutputChannelNames
 OutputChannelNames = getappdata(handles.f1,'OutputChannelNames');
+keyboard
 if any(handles.ConfigureOutputs == src)
     OutputChannelNames{handles.ConfigureOutputs == src} = get(src,'String');
     setappdata(handles.f1,'OutputChannelNames',OutputChannelNames);
@@ -29,12 +30,6 @@ for i = 1:length(OutputChannelNames)
     end
 end
 
-% don't forget the digital channels
-for i = 1:length(DigitalOutputChannelNames)
-    if ~isempty(DigitalOutputChannelNames{i})
-        temp{end+1} = DigitalOutputChannelNames{i};
-    end
-end
 
 
 set(handles.OutputChannelsList,'String',temp,'Value',1)

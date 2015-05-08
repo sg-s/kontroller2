@@ -45,6 +45,7 @@ if ~isempty(InputChannelNames)
 end
 set(handles.InputChannelsList,'String',temp,'Value',1)
 OutputChannelNames = cache('OutputChannelNames');
+DigitalOutputChannelNames = cache('DigitalOutputChannelNames');
 temp = '';
 if ~isempty(OutputChannelNames)
     % add to the list of output channels
@@ -55,9 +56,18 @@ if ~isempty(OutputChannelNames)
         end
     end
 end
+if ~isempty(DigitalOutputChannelNames)
+    % add to the list of output channels
+    for i = 1:length(DigitalOutputChannelNames)
+        if ~isempty(DigitalOutputChannelNames{i})
+            temp{end+1} = DigitalOutputChannelNames{i};
+        end
+    end
+end
 set(handles.OutputChannelsList,'String',temp,'Value',1)
 setappdata(handles.f1,'InputChannelNames',InputChannelNames);
 setappdata(handles.f1,'OutputChannelNames',OutputChannelNames);
+setappdata(handles.f1,'DigitalOutputChannelNames',DigitalOutputChannelNames);
 rebuildManualControlUI;
 
 % look for DAQs
