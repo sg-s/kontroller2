@@ -1,16 +1,22 @@
 % reconfigureSession
 % part of the kontroller2 package
 function [] = reconfigureSession()
-global handles
+global handles 
 s = getappdata(handles.f1,'s');
 
 if s.IsRunning
     s.stop;
+    s.release;
 end
+
+
+clear('s');
+s = daq.createSession('ni');
 
 d = getappdata(handles.f1,'d');
 InputChannelNames = getappdata(handles.f1,'InputChannelNames');
 OutputChannelNames = getappdata(handles.f1,'OutputChannelNames');
+DigitalOutputChannelNames = getappdata(handles.f1,'DigitalOutputChannelNames');
 
 w = str2double(get(handles.SamplingRateControl,'String'));
 if isnan(w)
@@ -35,16 +41,34 @@ end
 
 % configure analgoue outputs
 OutputChannels = get(d.Subsystems(2),'ChannelNames');
+noutputs = 0;
 if ~isempty(OutputChannelNames)
     for i = 1:length(OutputChannelNames)
         if ~isempty(OutputChannelNames{i})
             % add if not already added
             if ~any(find(strcmp({s.Channels.ID},OutputChannels{i}))) || isempty({s.Channels.ID})
                 s.addAnalogOutputChannel('Dev1',OutputChannels{i},'Voltage');
+                noutputs = noutputs+1;
             end
         end
     end
 end
+
+% configure digital outputs
+DigitalOutputChannels = get(d.Subsystems(3),'ChannelNames');
+if ~isempty(DigitalOutputChannelNames)
+    for i = 1:length(DigitalOutputChannelNames)
+        if ~isempty(DigitalOutputChannelNames{i})
+            % add if not already added
+            if ~any(find(strcmp({s.Channels.ID},DigitalOutputChannels{i}))) || isempty({s.Channels.ID})
+                s.addDigitalOutputChannel('Dev1',OutputChannels{i},'Voltage');
+                noutputs = noutputs+1;
+            end
+        end
+    end
+end
+
+keyboard
 
 % configure listeners
 if isfield(handles,'dataListener')
@@ -58,10 +82,11 @@ end
 handles.grabDataListener = s.addlistener('DataRequired',@DataRouter);
 
 % queue some filler data
-
-
-% start the task
-%s.startBackground;
-
+WriteBuffer = zeros(s.NotifyWhenScansQueuedBelow,noutputs);
 
 setappdata(handles.f1,'s',s);
+setappdata(handles.f1,'WriteBuffer',WriteBuffer);
+
+% start the task
+s.queueOutputData(WriteBuffer);
+s.startBackground;

@@ -3,7 +3,6 @@
 function [] = reconfigureSession()
 global handles 
 s = getappdata(handles.f1,'s');
-WriteBugger = getappdata(handles.f1,'WriteBuffer');
 
 if s.IsRunning
     s.stop;
@@ -17,6 +16,7 @@ s = daq.createSession('ni');
 d = getappdata(handles.f1,'d');
 InputChannelNames = getappdata(handles.f1,'InputChannelNames');
 OutputChannelNames = getappdata(handles.f1,'OutputChannelNames');
+DigitalOutputChannelNames = getappdata(handles.f1,'DigitalOutputChannelNames');
 
 w = str2double(get(handles.SamplingRateControl,'String'));
 if isnan(w)
@@ -53,6 +53,21 @@ if ~isempty(OutputChannelNames)
         end
     end
 end
+
+% configure digital outputs
+DigitalOutputChannels = get(d.Subsystems(3),'ChannelNames');
+if ~isempty(DigitalOutputChannelNames)
+    for i = 1:length(DigitalOutputChannelNames)
+        if ~isempty(DigitalOutputChannelNames{i})
+            % add if not already added
+            if ~any(find(strcmp({s.Channels.ID},DigitalOutputChannels{i}))) || isempty({s.Channels.ID})
+                s.addDigitalChannel('Dev1',DigitalOutputChannels{i}, 'OutputOnly');
+                noutputs = noutputs+1;
+            end
+        end
+    end
+end
+
 
 % configure listeners
 if isfield(handles,'dataListener')

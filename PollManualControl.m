@@ -1,5 +1,6 @@
 % PollManualControl
 % this is called every time s needs some data
+% for now, this is the only way to control outputs
 function [] = PollManualControl(s,~)
 
 global handles

@@ -48,7 +48,7 @@ for i = 1:noutputs
     elseif any(find(strcmp(OutputNames{i},DigitalOutputChannelNames)))
         % digital
         handles.ManualControlSliders(i) = uicontrol(handles.ManualControlTab,'style','slider','Value',0,'Units','normalized','Position',[.1+x .18 w .7]);
-        set(handles.ManualControlSliders(i),'SliderStep',[.9 .9]);
+        set(handles.ManualControlSliders(i),'SliderStep',[1 1]);
         handles.ManualControlSliderLabels(i) = uicontrol(handles.ManualControlTab,'style','text','String',OutputNames{i},'Units','normalized','Position',[.1+x-(w) .08 3*w .1]);
     
         % add controls for upper and lower bounds
