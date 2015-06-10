@@ -32,6 +32,28 @@ git clone https://github.com/sg-s/srinivas.gs_mtools # kontroller needs this to 
 ```
 and don't forget to add these folders to your `MATLAB path`
 
+## Hacking 
+
+### Data structure 
+
+Saved data is stored in a MAT file in the variable `data`. `data` is a structure with the following fields:
+
+* Input1        (dynamically 
+* Input2        named based on
+* ...           what you configure
+* InputN        your input channels)
+* paradigm      stores paradigm name, if this comes from a control paradigm 
+* trial         stores trial #, if this comes from a control paradigm
+* Outputs       stores the actual outputs written during this trial.
+
+Each field is a cell array, so, for example:
+
+```
+data.voltage{34}     % is a vector that is M samples long
+data.Outputs{34}     % a matrix also M samples long
+data.trial{34}       % a scalar
+```
+
 ## License 
 
 [![GPL License](http://img.shields.io/badge/license-GPL-blue.svg?style=flat)](http://opensource.org/licenses/GPL-2.0)
