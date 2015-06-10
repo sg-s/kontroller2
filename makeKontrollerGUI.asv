@@ -50,10 +50,7 @@ if ispc
     handles.AbortButton = uicontrol(handles.ParadigmTab,'Position',[280 10 100 30],'Style','pushbutton','Enable','off','String','Abort','FontSize',10,'Callback',@Abort);
 
     % save tab
-    handles.SaveButton = uicontrol(handles.SaveTab,'Position',[280 10 100 30],'Style','pushbutton','Enable','on','String','Save to...','FontSize',10,'Callback',@save_callback);
-    handles.SaveEdit = uicontrol(handles.SaveTab,'Position',[10 10 200 30],'Style','edit','Enable','on','String','no file chosen','FontSize',10,'Callback',@save_callback);
     
-
     
 elseif ismac
     handles.TabGroup = uitabgroup(handles.f1,'Units','points','Position',[10 10 430 230]);

@@ -99,6 +99,13 @@ end
 s = daq.createSession('ni');
 setappdata(handles.f1,'s',s);
 
+% store some entries for file name (to save in)
+FileName = [];
+PathName = [];
+setappdata(handles.f1,'FileName',FileName);
+setappdata(handles.f1,'PathName',PathName);
+
+
 reconfigureSession();
 
 
