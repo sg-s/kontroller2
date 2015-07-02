@@ -105,6 +105,8 @@ PathName = [];
 setappdata(handles.f1,'FileName',FileName);
 setappdata(handles.f1,'PathName',PathName);
 
+% reset the save_index  to 0
+setappdata(handles.f1,'save_index',0);
 
 reconfigureSession();
 

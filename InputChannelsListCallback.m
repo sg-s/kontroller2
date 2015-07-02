@@ -30,7 +30,7 @@ nplots = length(get(handles.InputChannelsList,'Value'));
 handles.scope_plots = [];
 figure(handles.scope_fig)
 for i = 1:nplots
-    handles.scope_plots(i) = autoplot(nplots,i);
+    handles.scope_plots(i) = autoplot(nplots,i,1);
     handles.plot_data(i) = plot(NaN,NaN);
     set(handles.plot_data(i),'XData',NaN(str2double(get(handles.scope_NSamples,'String')),1),'YData',NaN(str2double(get(handles.scope_NSamples,'String')),1));
     
