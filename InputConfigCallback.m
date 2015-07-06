@@ -24,4 +24,4 @@ end
 set(handles.InputChannelsList,'String',temp,'Value',1)
 
 % reconfigure session
-reconfigureSession(handles);
+reconfigureSession;

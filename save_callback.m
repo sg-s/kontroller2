@@ -23,7 +23,8 @@ elseif src == handles.SaveEdit
     FileName = get(src,'String');
     setappdata(handles.f1,'FileName',FileName);
     if ~isempty(FileName)
-        set(handles.MCSaveButton,'Enable','on')
+        set(handles.MCSaveButton,'Enable','on');
+        PathName = 'c:\data\';
     end
     
     % reset the save_index  to 0

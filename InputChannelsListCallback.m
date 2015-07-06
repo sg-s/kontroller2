@@ -35,3 +35,7 @@ for i = 1:nplots
     set(handles.plot_data(i),'XData',NaN(str2double(get(handles.scope_NSamples,'String')),1),'YData',NaN(str2double(get(handles.scope_NSamples,'String')),1));
     
 end
+
+
+
+

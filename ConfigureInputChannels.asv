@@ -84,11 +84,11 @@ temp = {};
 for i = 1:length(InputChannelNames)
     if ~isempty(InputChannelNames{i})
         temp{end+1} = InputChannelNames{i};
-        setfield(data,temp{end},cell(0));
+        setfield(data,temp,cell(0))
     end
 end
-set(handles.InputChannelsList,'String',temp,'Value',1);
-setappdata(handles.f1,'data',data);
+set(handles.InputChannelsList,'String',temp,'Value',1)
+
 
 
 

@@ -1,6 +1,11 @@
 function [] = rebuildManualControlUI()
 global handles
 
+% debug
+disp(mfilename)
+disp('called.')
+
+
 if isfield(handles,'ManualControlSliders')
     delete(handles.ManualControlSliders);
 end
@@ -63,9 +68,9 @@ for i = 1:noutputs
 end
 
 %% add a save button 
-handles.MCSaveButton =  uicontrol(handles.ManualControlTab,'style','pushbutton','String','Save','Units','normalized','Position',[.05 .01 .9 .08],'Enable','off','Callback','@toggle_save_button');
+handles.MCSaveButton =  uicontrol(handles.ManualControlTab,'style','pushbutton','String','Save','Units','normalized','Position',[.05 .01 .9 .08],'Enable','off','Callback',@toggle_save_button);
 FileName = getappdata(handles.f1,'FileName');
 if ~isempty(FileName)
-    set(handles.MCSaveButton,'Enable','on')
+    set(handles.MCSaveButton,'Enable','on');
 end
     
