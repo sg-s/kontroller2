@@ -1,5 +1,5 @@
 # kontroller2
-A event-driven hardware I/O controller written around MATLAB's DAQ toolbox. Better than https://github.com/sg-s/kontroller
+A event-driven hardware I/O controller written around MATLAB's DAQ toolbox. Better than [kontroller](https://github.com/sg-s/kontroller). kontroller2 is currently under active development. 
 
 ## Features
 
@@ -37,7 +37,7 @@ and don't forget to add these folders to your `MATLAB path`
 ### Data structure 
 
 Saved data is stored in a MAT file in the variable `data`. `data` is a structure with the following fields:
-
+```
 * Input1        (dynamically 
 * Input2        named based on
 * ...           what you configure
@@ -45,6 +45,7 @@ Saved data is stored in a MAT file in the variable `data`. `data` is a structure
 * paradigm      stores paradigm name, if this comes from a control paradigm 
 * trial         stores trial #, if this comes from a control paradigm
 * Outputs       stores the actual outputs written during this trial.
+```
 
 Each field is a cell array, so, for example:
 
