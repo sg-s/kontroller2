@@ -110,7 +110,9 @@ setappdata(handles.f1,'PathName',PathName);
 % set some core variablesfor data buffering and saving
 data = struct;
 binary_dump_handle = [];
+binary_dump_handle2 = [];
 setappdata(handles.f1,'binary_dump_handle',binary_dump_handle);
+setappdata(handles.f1,'binary_dump_handle2',binary_dump_handle2);
 setappdata(handles.f1,'data',data);
 
 reconfigureSession();
@@ -118,5 +120,6 @@ reconfigureSession();
 % wipe the dump files from previous sessions
 try
     delete('dump.bin')
+    delete('dump2.bin')
 end
 

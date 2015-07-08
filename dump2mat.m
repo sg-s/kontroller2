@@ -3,15 +3,36 @@
 % dump2mat reads the dump file (dump.bin) and appends the data there to the
 % data structure in a mat file. 
 
-function [] = dump2mat(variable_names,PathName,FileName)
-nchannels = length(variable_names);
-f = fopen('dump.bin','r');
+function [] = dump2mat()
+global handles
+
+% get the number of input and output channels
+input_channels = get(handles.InputChannelsList,'String');
+output_channels = get(handles.OutputChannelsList,'String');
+path_name = getappdata(handles.f1,'path_name');
+file_name = getappdata(handles.f1,'file_name');
+nchannels = length(input_channels);
+mchannels = length(output_channels);
+
+f = fopen('input.k2','r');
 if f < 0
     error('error in dump2mat: dump not found. Data will not be properly saved, though you can manually recover the data from the binary dump, if it is exists.')
 end
 
-d = fread(f,'double');
-d = reshape(d,nchannels+1,length(d)/(nchannels+1))'; % remember, the last row is the timestamp
+dump = fread(f,'double');
+dump = reshape(dump,nchannels+1,length(dump)/(nchannels+1))'; % remember, the last row is the timestamp
+fclose(f);
+
+keyboard
+mchannels = length(control_signals);
+f = fopen('dump2.bin','r');
+if f < 0
+    error('error in dump2mat: dump2 not found. Data will not be properly saved, though you can manually recover the data from the binary dump, if it is exists.')
+end
+ControlSignals = fread(f,'double');
+ControlSignals = reshape(ControlSignals,mchannels,length(ControlSignals)/(mchannels))'; % remember, the last row is the timestamp
+fclose(f);
+
 
 if isempty(PathName)
     PathName = 'c:\data\';
@@ -33,6 +54,10 @@ if exist([PathName FileName]) == 2
     
     % add the timestamps too
     data.TimeStamps{load_here} = d(:,end);
+    
+    
+    disp('need to add dump2')
+    keyboard
     
     % save the data
     save([PathName FileName],'data','-append')
@@ -59,6 +84,9 @@ else
     
     % add the timestamps too
     data.TimeStamps{1} = d(:,end);
+    
+    disp('need to add dump2')
+    keyboard
     
     % save the data
     save([PathName FileName],'data')

@@ -11,17 +11,27 @@ function [] = toggle_save_button(src,~)
 global handles
 if strcmp(get(src,'String'),'Save')
     set(src,'String','Saving...')
-    binary_dump_handle = fopen('dump.bin','w');
-    setappdata(handles.f1,'binary_dump_handle',binary_dump_handle);
+    input_dump_handle = fopen('input.k2','W');
+    setappdata(handles.f1,'input_dump_handle',input_dump_handle);
+    output_dump_handle = fopen('output.k2','W');
+    setappdata(handles.f1,'output_dump_handle',output_dump_handle);
 elseif strcmp(get(src,'String'),'Saving...')
     set(src,'String','Save')
-    binary_dump_handle = getappdata(handles.f1,'binary_dump_handle');
-    fclose(binary_dump_handle);
-    binary_dump_handle = [];
-    setappdata(handles.f1,'binary_dump_handle',binary_dump_handle);
+    
+    % close the input dump file
+    input_dump_handle = getappdata(handles.f1,'input_dump_handle');
+    fclose(input_dump_handle);
+    input_dump_handle = [];
+    setappdata(handles.f1,'input_dump_handle',input_dump_handle);
+    
+    % close the output dump handle
+    output_dump_handle = getappdata(handles.f1,'output_dump_handle');
+    fclose(output_dump_handle);
+    output_dump_handle = [];
+    setappdata(handles.f1,'output_dump_handle',output_dump_handle);
     
     % now extract the dump and re-save it into a nice .mat file
-    dump2mat(get(handles.InputChannelsList,'String'),getappdata(handles.f1,'PathName'),getappdata(handles.f1,'FileName'));
+    dump2mat;
     
 else
     error('toggle_save_button was called by an unexpected function')
