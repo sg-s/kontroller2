@@ -1,12 +1,14 @@
-% this function is called when you click the "configure outputs" on the
-% main window
+% configureOutputChannels.m 
+% creates UI for configuring outputs.
+% 
+% this function is called when you click the "configure outputs" on the main window
 % its job is to make the UI for analogue and digital output channel
 % choosers
 % it spawns 2 figures, and links the figures to other callbacks that modify
 % the session variable "s" with the new channels you want to write to. 
 % part of kontroller2
 
-function [] =ConfigureOutputChannels(~,~)
+function [] = configureOutputChannels(~,~)
 
 % get the DAQ structure and handles sructure
 global handles

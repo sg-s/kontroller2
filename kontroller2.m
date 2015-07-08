@@ -1,5 +1,5 @@
-% kontroller.m
-% this is kontroller2, a complete re-write of the original kontroller
+% kontroller2.m
+% event-based wrapper for MATLAB's DAQ toolbox
 % 
 % created by Srinivas Gorur-Shandilya at 6:02 , 10 April 2015. Contact me at http://srinivas.gs/contact/
 % 

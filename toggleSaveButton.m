@@ -1,4 +1,6 @@
-% toggle_save_button.m
+% toggleSaveButton.m
+% callback when pressing the "save" button on the manual control tab
+% 
 % this m file is called when you press the save button in the manual
 % control tab
 % it has two tasks:
@@ -6,7 +8,7 @@
 % that it's saving
 % 2.  opens a binary dump file to stream the data that we grab from the DAQ
 % device. 
-function [] = toggle_save_button(src,~)
+function [] = toggleSaveButton(src,~)
 
 global handles
 if strcmp(get(src,'String'),'Save')

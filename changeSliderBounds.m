@@ -1,4 +1,11 @@
-function ChangeSliderBounds(src,~)
+% changeSliderBounds.m
+% changes the bounds of manual control sliders based on text edit fields above or below slider. 
+% 
+% created by Srinivas Gorur-Shandilya at 5:29 , 08 July 2015. Contact me at http://srinivas.gs/contact/
+% 
+% This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. 
+% To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
+function changeSliderBounds(src,~)
 global handles
 if any (handles.ManualControlSliderLB == src)
     new_value = str2double(get(src,'String'));

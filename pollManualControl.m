@@ -1,7 +1,9 @@
-% PollManualControl
+% pollManualControl
+% asks the ManualControl tab for states to write to the control buffer
+% 
 % this is called every time s needs some data
 % for now, this is the only way to control outputs
-function [WriteBuffer] = PollManualControl(s,~)
+function [WriteBuffer] = pollManualControl(s,~)
 
 global handles
 WriteBuffer = getappdata(handles.f1,'WriteBuffer');

@@ -1,4 +1,5 @@
 % makeKontrollerGUI
+% makes the GUI for kontroller2 when it starts up
 % 
 % created by Srinivas Gorur-Shandilya at 6:07 , 10 April 2015. Contact me at http://srinivas.gs/contact/
 % 

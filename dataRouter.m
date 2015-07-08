@@ -1,5 +1,12 @@
+% dataRouter
 % dataRouter is a function that routes data from and to 
-function DataRouter(src,event)
+% 
+% 
+% created by Srinivas Gorur-Shandilya at 5:32 , 08 July 2015. Contact me at http://srinivas.gs/contact/
+% 
+% This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. 
+% To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
+function dataRouter(src,event)
 global handles
 
 if strcmp(event.EventName,'DataRequired')

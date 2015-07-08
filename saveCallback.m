@@ -1,9 +1,11 @@
+% saveCallback
+% determines which mat file to save data to
 % this function is called when you click on anything in the save tab in the
 % main window
 % its job is to pick a file to stream data to
 % part of kontroller2
 
-function [] = save_callback(src,~)
+function [] = saveCallback(src,~)
 global handles
 if src == handles.SaveButton
     [FileName,PathName] = uiputfile('c:\data\');

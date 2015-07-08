@@ -1,4 +1,11 @@
-function InputChannelsListCallback(src,event)
+% inputChannelsListCallback
+% callback on selecting input channels from the main window
+% 
+% created by Srinivas Gorur-Shandilya at 5:33 , 08 July 2015. Contact me at http://srinivas.gs/contact/
+% 
+% This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. 
+% To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
+function inputChannelsListCallback(src,event)
 
 global handles
 

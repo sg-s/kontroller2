@@ -1,8 +1,11 @@
 % dump2mat.m
-% this is part of kontroller2.m
-% dump2mat reads the dump file (dump.bin) and appends the data there to the
-% data structure in a mat file. 
-
+% dump2mat reads the dump file (e.g. output.k2) and appends the data there to the data structure in a mat file. 
+% 
+% 
+% created by Srinivas Gorur-Shandilya at 5:32 , 08 July 2015. Contact me at http://srinivas.gs/contact/
+% 
+% This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. 
+% To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
 function [] = dump2mat()
 global handles
 
