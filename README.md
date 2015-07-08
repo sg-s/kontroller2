@@ -1,3 +1,5 @@
+[![GPL License](http://img.shields.io/badge/license-GPL-blue.svg?style=flat)](http://opensource.org/licenses/GPL-2.0)
+
 # kontroller2
 A event-driven hardware I/O controller written around MATLAB's DAQ toolbox. Better than [kontroller](https://github.com/sg-s/kontroller). kontroller2 is currently under active development. 
 
@@ -56,7 +58,5 @@ data.trial{34}       % a scalar
 ```
 
 ## License 
-
-[![GPL License](http://img.shields.io/badge/license-GPL-blue.svg?style=flat)](http://opensource.org/licenses/GPL-2.0)
 
 [GPL v2](http://choosealicense.com/licenses/gpl-2.0/#)
