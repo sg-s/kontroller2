@@ -7,7 +7,7 @@
 % To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
 
 function [] = kontroller2(varargin)
-VersionName= 'Kontroller2 v_alpha2_';
+VersionName= 'Kontroller2 v_beta2_';
 %% validate inputs
 gui = 0;
 RunTheseParadigms = [];
