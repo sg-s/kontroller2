@@ -93,6 +93,10 @@ WriteBuffer = zeros(s.NotifyWhenScansQueuedBelow,noutputs);
 setappdata(handles.f1,'s',s);
 setappdata(handles.f1,'WriteBuffer',WriteBuffer);
 
-% start the task
-s.queueOutputData(WriteBuffer);
-s.startBackground;
+% start the task if something is configured
+if ~isempty(WriteBuffer)
+    s.queueOutputData(WriteBuffer);
+end
+if length(get(handles.InputChannelsList,'String'))
+    s.startBackground;
+end

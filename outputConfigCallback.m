@@ -11,6 +11,8 @@ global handles
 
 % update OutputChannelNames
 OutputChannelNames = getappdata(handles.f1,'OutputChannelNames');
+DigitalOutputChannelNames = getappdata(handles.f1,'DigitalOutputChannelNames');
+
 if any(handles.ConfigureOutputs == src)
     OutputChannelNames{handles.ConfigureOutputs == src} = get(src,'String');
     setappdata(handles.f1,'OutputChannelNames',OutputChannelNames);

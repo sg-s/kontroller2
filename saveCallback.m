@@ -8,11 +8,11 @@
 function [] = saveCallback(src,~)
 global handles
 if src == handles.SaveButton
-    [FileName,PathName] = uiputfile('c:\data\');
-    setappdata(handles.f1,'FileName',FileName);
-    setappdata(handles.f1,'PathName',PathName);
-    if ~isempty(FileName)
-        set(handles.SaveEdit,'string',FileName);
+    [file_name,path_name] = uiputfile('c:\data\');
+    setappdata(handles.f1,'file_name',file_name);
+    setappdata(handles.f1,'path_name',path_name);
+    if ~isempty(file_name)
+        set(handles.SaveEdit,'string',file_name);
         set(handles.MCSaveButton,'Enable','on')
     else
         set(handles.SaveEdit,'string','No file chosen.');
@@ -22,15 +22,15 @@ if src == handles.SaveButton
     % reset the save_index  to 0
     setappdata(handles.f1,'save_index',0);
 elseif src == handles.SaveEdit
-    FileName = get(src,'String');
-    setappdata(handles.f1,'FileName',FileName);
-    if ~isempty(FileName)
+    file_name = get(src,'String');
+    setappdata(handles.f1,'file_name',file_name);
+    if ~isempty(file_name)
         set(handles.MCSaveButton,'Enable','on');
-        PathName = 'c:\data\';
+        path_name = 'c:\data\';
+        setappdata(handles.f1,'path_name',path_name);
     end
+
     
-    % reset the save_index  to 0
-    setappdata(handles.f1,'save_index',0);
 else
     error('save_callback was called from an illegal source')
 end

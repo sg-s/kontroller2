@@ -19,58 +19,58 @@ mchannels = length(output_channels);
 
 f = fopen('input.k2','r');
 if f < 0
-    error('error in dump2mat: dump not found. Data will not be properly saved, though you can manually recover the data from the binary dump, if it is exists.')
+    error('error in dump2mat: input.k2 not found. Data will not be properly saved, though you can manually recover the data from the binary dump, if it is exists.')
 end
 
-dump = fread(f,'double');
-dump = reshape(dump,nchannels+1,length(dump)/(nchannels+1))'; % remember, the last row is the timestamp
+data_dump = fread(f,'double');
+data_dump = reshape(data_dump,nchannels+1,length(data_dump)/(nchannels+1))'; % remember, the last row is the timestamp
 fclose(f);
 
-keyboard
-mchannels = length(control_signals);
-f = fopen('dump2.bin','r');
+f = fopen('output.k2','r');
 if f < 0
-    error('error in dump2mat: dump2 not found. Data will not be properly saved, though you can manually recover the data from the binary dump, if it is exists.')
+    error('error in dump2mat: output.k2 not found. Data will not be properly saved, though you can manually recover the data from the binary dump, if it is exists.')
 end
-ControlSignals = fread(f,'double');
-ControlSignals = reshape(ControlSignals,mchannels,length(ControlSignals)/(mchannels))'; % remember, the last row is the timestamp
+control_signals = fread(f,'double');
+control_signals = reshape(control_signals,mchannels,length(control_signals)/(mchannels))'; % remember, the last row is the timestamp
 fclose(f);
 
 
-if isempty(PathName)
-    PathName = 'c:\data\';
+if isempty(path_name)
+    path_name = 'c:\data\';
 end
 
-if exist([PathName FileName]) == 2
+if exist([path_name file_name]) == 2
     % file exists. load and append new data
-    load([PathName FileName]);
+    load([path_name file_name]);
     
     temp = fieldnames(data);
     eval(strcat('load_here=length(data.',temp{1},')+1;'))
     
     % add the data
-    for i = 1:length(variable_names)
-        if ~strcmp(variable_names{i},'Ground')
-            eval(strcat('data.',variable_names{i},'{',mat2str(load_here),'}=d(:,i);'));
+    for i = 1:length(input_channels)
+        if ~strcmp(input_channels{i},'Ground')
+            eval(strcat('data.',input_channels{i},'{',mat2str(load_here),'}=data_dump(:,i);'));
         end
     end
     
     % add the timestamps too
-    data.TimeStamps{load_here} = d(:,end);
+    data.TimeStamps{load_here} = data_dump(:,end);
     
-    
-    disp('need to add dump2')
-    keyboard
+    % now add the control signals
+    for i = 1:length(output_channels)
+        eval(strcat('data.control_',output_channels{i},'{',mat2str(load_here),'}=control_signals(:,i);'));
+    end
     
     % save the data
-    save([PathName FileName],'data','-append')
+    save([path_name file_name],'data','-append')
     
     
 else
     % file does not exist
+    load_here = 1;
     % prepare the data structure
-    for i = 1:length(variable_names)
-        eval(strcat('data.',variable_names{i},'={};'))
+    for i = 1:length(input_channels)
+        eval(strcat('data.',input_channels{i},'={};'))
     end
     % dont forget the timestamps
     data.TimeStamps = {};
@@ -79,20 +79,21 @@ else
     data = orderfields(data);
     
     % add the data
-    for i = 1:length(variable_names)
-        if ~strcmp(variable_names{i},'Ground')
-            eval(strcat('data.',variable_names{i},'{1}=d(:,i);'));
+    for i = 1:length(input_channels)
+        if ~strcmp(input_channels{i},'Ground')
+            eval(strcat('data.',input_channels{i},'{1}=data_dump(:,i);'));
         end
     end
     
     % add the timestamps too
-    data.TimeStamps{1} = d(:,end);
+    data.TimeStamps{1} = data_dump(:,end);
     
-    disp('need to add dump2')
-    keyboard
+    for i = 1:length(output_channels)
+        eval(strcat('data.control_',output_channels{i},'{',mat2str(load_here),'}=control_signals(:,i);'));
+    end
     
     % save the data
-    save([PathName FileName],'data')
+    save([path_name file_name],'data')
     
 end
 

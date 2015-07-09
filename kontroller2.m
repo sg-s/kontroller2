@@ -34,6 +34,7 @@ handles = makeKontrollerGUI(VersionName);
 
 % here are the core variables
 InputChannelNames = cache('InputChannelNames');
+temp = '';
 if ~isempty(InputChannelNames)
     % add to the list of input channels
     temp = {};
@@ -100,10 +101,10 @@ s = daq.createSession('ni');
 setappdata(handles.f1,'s',s);
 
 % store some entries for file name (to save in)
-FileName = [];
-PathName = [];
-setappdata(handles.f1,'FileName',FileName);
-setappdata(handles.f1,'PathName',PathName);
+file_name = [];
+path_name = [];
+setappdata(handles.f1,'file_name',file_name);
+setappdata(handles.f1,'path_name',path_name);
 
 
 
