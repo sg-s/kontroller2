@@ -6,10 +6,12 @@
 % This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. 
 % To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
 function quitKontroller2Callback(src,event)
-
+global handles
 selection = questdlg('Are you sure you want to quit Kontroller?','Confirm quit.','Yes','No','Yes'); 
 switch selection, 
   case 'Yes',
+        s = getappdata(handles.f1,'s');
+        s.stop;
         figHandles = findobj('Type','figure');
         delete_me = [];
         for i = 1:length(figHandles)

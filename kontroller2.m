@@ -109,17 +109,18 @@ setappdata(handles.f1,'PathName',PathName);
 
 % set some core variablesfor data buffering and saving
 data = struct;
-binary_dump_handle = [];
-binary_dump_handle2 = [];
-setappdata(handles.f1,'binary_dump_handle',binary_dump_handle);
-setappdata(handles.f1,'binary_dump_handle2',binary_dump_handle2);
+input_dump_handle = [];
+output_dump_handle = [];
+setappdata(handles.f1,'input_dump_handle',input_dump_handle);
+setappdata(handles.f1,'output_dump_handle',output_dump_handle);
 setappdata(handles.f1,'data',data);
 
 reconfigureSession();
 
 % wipe the dump files from previous sessions
-try
-    delete('dump.bin')
-    delete('dump2.bin')
+if exist('input.k2') == 2
+    delete('input.k2');
 end
-
+if exist('output.k2') == 2
+    delete('output.k2');
+end

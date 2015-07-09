@@ -80,12 +80,12 @@ end
 if isfield(handles,'dataListener')
     delete(handles.dataListener);
 end
-handles.dataListener = s.addlistener('DataAvailable',@DataRouter);
+handles.dataListener = s.addlistener('DataAvailable',@dataRouter);
 
 if isfield(handles,'grabDataListener')
     delete(handles.grabDataListener);
 end
-handles.grabDataListener = s.addlistener('DataRequired',@DataRouter);
+handles.grabDataListener = s.addlistener('DataRequired',@dataRouter);
 
 % queue some filler data
 WriteBuffer = zeros(s.NotifyWhenScansQueuedBelow,noutputs);

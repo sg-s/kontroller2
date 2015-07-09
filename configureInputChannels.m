@@ -39,11 +39,11 @@ if floor(n/2)*2 == n
         this_channel = i;
         
         uicontrol(handles.ConfigureInputsFigure,'Position',[160 10+Height-i*nspacing 50 20],'Style', 'text','String',InputChannels{i},'FontSize',12);
-        handles.ConfigureInputs(this_channel) = uicontrol(handles.ConfigureInputsFigure,'Position',[40 10+Height-i*nspacing 100 20],'Style', 'edit','String',InputChannelNames{i},'FontSize',12,'Callback',@InputConfigCallback);
+        handles.ConfigureInputs(this_channel) = uicontrol(handles.ConfigureInputsFigure,'Position',[40 10+Height-i*nspacing 100 20],'Style', 'edit','String',InputChannelNames{i},'FontSize',12,'Callback',@inputConfigCallback);
         if isempty(InputChannelRanges{i})
-             handles.ConfigureInputsRange(this_channel) = uicontrol(handles.ConfigureInputsFigure,'Position',[7 10+Height-i*nspacing 25 20],'Style', 'edit','String','','FontSize',10,'Callback',@InputConfigCallback);
+             handles.ConfigureInputsRange(this_channel) = uicontrol(handles.ConfigureInputsFigure,'Position',[7 10+Height-i*nspacing 25 20],'Style', 'edit','String','','FontSize',10,'Callback',@inputConfigCallback);
         else
-            handles.ConfigureInputsRange(this_channel) = uicontrol(handles.ConfigureInputsFigure,'Position',[7 10+Height-i*nspacing 25 20],'Style', 'edit','String',mat2str(InputChannelRanges{i}),'FontSize',10,'Callback',@InputConfigCallback);
+            handles.ConfigureInputsRange(this_channel) = uicontrol(handles.ConfigureInputsFigure,'Position',[7 10+Height-i*nspacing 25 20],'Style', 'edit','String',mat2str(InputChannelRanges{i}),'FontSize',10,'Callback',@inputConfigCallback);
         end    
         if isempty(InputChannelNames{i})
         else
@@ -59,11 +59,11 @@ if floor(n/2)*2 == n
         this_channel = i+n/2;
         
         uicontrol(handles.ConfigureInputsFigure,'Position',[220 10+Height-i*nspacing 50 20],'Style', 'text','String',InputChannels{this_channel},'FontSize',12);
-        handles.ConfigureInputs(this_channel) = uicontrol(handles.ConfigureInputsFigure,'Position',[300 10+Height-i*nspacing 100 20],'Style', 'edit','String',InputChannelNames{this_channel},'FontSize',12,'Callback',@InputConfigCallback);
+        handles.ConfigureInputs(this_channel) = uicontrol(handles.ConfigureInputsFigure,'Position',[300 10+Height-i*nspacing 100 20],'Style', 'edit','String',InputChannelNames{this_channel},'FontSize',12,'Callback',@inputConfigCallback);
         if isempty(InputChannelRanges{this_channel})
-             handles.ConfigureInputsRange(this_channel) = uicontrol(handles.ConfigureInputsFigure,'Position',[407 10+Height-i*nspacing 25 20],'Style', 'edit','String','','FontSize',10,'Callback',@InputConfigCallback);
+             handles.ConfigureInputsRange(this_channel) = uicontrol(handles.ConfigureInputsFigure,'Position',[407 10+Height-i*nspacing 25 20],'Style', 'edit','String','','FontSize',10,'Callback',@inputConfigCallback);
         else
-            handles.ConfigureInputsRange(this_channel) = uicontrol(handles.ConfigureInputsFigure,'Position',[407 10+Height-i*nspacing 25 20],'Style', 'edit','String',mat2str(InputChannelRanges{i}),'FontSize',10,'Callback',@InputConfigCallback);
+            handles.ConfigureInputsRange(this_channel) = uicontrol(handles.ConfigureInputsFigure,'Position',[407 10+Height-i*nspacing 25 20],'Style', 'edit','String',mat2str(InputChannelRanges{i}),'FontSize',10,'Callback',@inputConfigCallback);
         end    
         if isempty(InputChannelNames{this_channel})
         else

@@ -53,8 +53,8 @@ for i = 1:noutputs
         handles.ManualControlSliderLabels(i) = uicontrol(handles.ManualControlTab,'style','text','String',OutputNames{i},'Units','normalized','Position',[.1+x-(w) .18 3*w .1]);
     
         % add controls for upper and lower bounds
-        handles.ManualControlSliderLB(i) = uicontrol(handles.ManualControlTab,'style','edit','String','0','Units','normalized','Position',[.1+x .12 w .08],'Callback',@ChangeSliderBounds);
-        handles.ManualControlSliderUB(i) = uicontrol(handles.ManualControlTab,'style','edit','String','1','Units','normalized','Position',[.1+x .9 w .08],'Callback',@ChangeSliderBounds);
+        handles.ManualControlSliderLB(i) = uicontrol(handles.ManualControlTab,'style','edit','String','0','Units','normalized','Position',[.1+x .12 w .08],'Callback',@changeSliderBounds);
+        handles.ManualControlSliderUB(i) = uicontrol(handles.ManualControlTab,'style','edit','String','1','Units','normalized','Position',[.1+x .9 w .08],'Callback',@changeSliderBounds);
     
         
     elseif any(find(strcmp(OutputNames{i},DigitalOutputChannelNames)))
@@ -75,7 +75,7 @@ for i = 1:noutputs
 end
 
 %% add a save button 
-handles.MCSaveButton =  uicontrol(handles.ManualControlTab,'style','pushbutton','String','Save','Units','normalized','Position',[.05 .01 .9 .08],'Enable','off','Callback',@toggle_save_button);
+handles.MCSaveButton =  uicontrol(handles.ManualControlTab,'style','pushbutton','String','Save','Units','normalized','Position',[.05 .01 .9 .08],'Enable','off','Callback',@toggleSaveButton);
 FileName = getappdata(handles.f1,'FileName');
 if ~isempty(FileName)
     set(handles.MCSaveButton,'Enable','on');

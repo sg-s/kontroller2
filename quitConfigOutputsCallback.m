@@ -7,6 +7,7 @@
 % To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
 function quitConfigOutputsCallback(~,~)
 global handles
+
 try
     delete(handles.ConfigureOutputsFigure); 
 catch

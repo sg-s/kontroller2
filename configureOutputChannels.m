@@ -19,7 +19,7 @@ OutputChannels =  d(1).Subsystems(2).ChannelNames;
 n = length(OutputChannels);
 
 Height = (n/2)*50;
-handles.ConfigureOutputsFigure = figure('Position',[80 80 450 Height],'Toolbar','none','Menubar','none','resize','off','Name','Configure Analogue Output Channels','NumberTitle','off','CloseRequestFcn',@QuitConfigOutputsCallback);
+handles.ConfigureOutputsFigure = figure('Position',[80 80 450 Height],'Toolbar','none','Menubar','none','resize','off','Name','Configure Analogue Output Channels','NumberTitle','off','CloseRequestFcn',@quitConfigOutputsCallback);
 a = axes; hold on
 set(a,'Visible','off');
 
@@ -38,14 +38,14 @@ if floor(n/2)*2 == n
         this_channel = i;
         
         uicontrol(handles.ConfigureOutputsFigure,'Position',[160 10+Height-i*nspacing 50 20],'Style', 'text','String',OutputChannels{i},'FontSize',12);
-        handles.ConfigureOutputs(this_channel) = uicontrol(handles.ConfigureOutputsFigure,'Position',[40 10+Height-i*nspacing 100 20],'Style', 'edit','String',OutputChannelNames{i},'FontSize',12,'Callback',@OutputConfigCallback); 
+        handles.ConfigureOutputs(this_channel) = uicontrol(handles.ConfigureOutputsFigure,'Position',[40 10+Height-i*nspacing 100 20],'Style', 'edit','String',OutputChannelNames{i},'FontSize',12,'Callback',@outputConfigCallback); 
    
     end
     for i = 1:n/2  % left side
         this_channel = i+n/2;
         
         uicontrol(handles.ConfigureOutputsFigure,'Position',[220 10+Height-i*nspacing 50 20],'Style', 'text','String',OutputChannels{this_channel},'FontSize',12);
-        handles.ConfigureOutputs(this_channel) = uicontrol(handles.ConfigureOutputsFigure,'Position',[300 10+Height-i*nspacing 100 20],'Style', 'edit','String',OutputChannelNames{this_channel},'FontSize',12,'Callback',@OutputConfigCallback);
+        handles.ConfigureOutputs(this_channel) = uicontrol(handles.ConfigureOutputsFigure,'Position',[300 10+Height-i*nspacing 100 20],'Style', 'edit','String',OutputChannelNames{this_channel},'FontSize',12,'Callback',@outputConfigCallback);
 
     end
 
@@ -79,7 +79,7 @@ if isempty(DigitalOutputChannelNames)
 end
 
 Height = 700;
-handles.ConfigureDigitalOutputsFigure = figure('Position',[550 150 550 Height],'Resize','off','Toolbar','none','Menubar','none','Name','Configure Digital Output Channels','NumberTitle','off','CloseRequestFcn',@QuitConfigOutputsCallback);
+handles.ConfigureDigitalOutputsFigure = figure('Position',[550 150 550 Height],'Resize','off','Toolbar','none','Menubar','none','Name','Configure Digital Output Channels','NumberTitle','off','CloseRequestFcn',@quitConfigOutputsCallback);
 a = axes; hold on
 set(a,'Visible','off');
 
@@ -91,14 +91,14 @@ if floor(n/2)*2 == n
         this_channel = i;
         
         uicontrol(handles.ConfigureDigitalOutputsFigure,'Position',[160 10+Height-i*nspacing 100 20],'Style', 'text','String',DigitalOutputChannels{i},'FontSize',12);
-        handles.ConfigureDigitalOutputs(this_channel) = uicontrol(handles.ConfigureDigitalOutputsFigure,'Position',[40 10+Height-i*nspacing 100 20],'Style', 'edit','String',DigitalOutputChannelNames{i},'FontSize',12,'Callback',@OutputConfigCallback); 
+        handles.ConfigureDigitalOutputs(this_channel) = uicontrol(handles.ConfigureDigitalOutputsFigure,'Position',[40 10+Height-i*nspacing 100 20],'Style', 'edit','String',DigitalOutputChannelNames{i},'FontSize',12,'Callback',@outputConfigCallback); 
    
     end
     for i = 1:n/2  % left side
         this_channel = i+n/2;
         
         uicontrol(handles.ConfigureDigitalOutputsFigure,'Position',[280 10+Height-i*nspacing 100 20],'Style', 'text','String',DigitalOutputChannels{this_channel},'FontSize',12);
-        handles.ConfigureDigitalOutputs(this_channel) = uicontrol(handles.ConfigureDigitalOutputsFigure,'Position',[390 10+Height-i*nspacing 100 20],'Style', 'edit','String',DigitalOutputChannelNames{this_channel},'FontSize',12,'Callback',@OutputConfigCallback);
+        handles.ConfigureDigitalOutputs(this_channel) = uicontrol(handles.ConfigureDigitalOutputsFigure,'Position',[390 10+Height-i*nspacing 100 20],'Style', 'edit','String',DigitalOutputChannelNames{this_channel},'FontSize',12,'Callback',@outputConfigCallback);
 
     end
 
