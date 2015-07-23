@@ -43,7 +43,7 @@ if ispc
     handles.MetadataTab = uitab(handles.TabGroup,'Title','Metadata');
 
     % paradigm tab
-    handles.ConfigureControlSignalsButton = uicontrol(handles.ParadigmTab,'Position',[10 220 180 30],'Style','pushbutton','Enable','off','String','Configure Control','FontSize',10,'Callback',@configureControlSignals);
+    handles.ConfigureControlSignalsButton = uicontrol(handles.ParadigmTab,'Position',[10 220 180 30],'Style','pushbutton','Enable','off','String','Configure Control','FontSize',10,'Callback',@loadSavedParadigms);
 
     % run, pause and abort
     handles.RunButton = uicontrol(handles.ParadigmTab,'Position',[10 10 100 30],'Style','pushbutton','Enable','off','String','Run','FontSize',10,'Callback',@runTrial);

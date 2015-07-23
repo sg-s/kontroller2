@@ -48,6 +48,17 @@ end
 
 set(handles.OutputChannelsList,'String',temp,'Value',1)
 
+OutputNames = get(handles.OutputChannelsList,'String');
+noutputs = length(OutputNames);
+% if at least one output exists, allow controls to be configured
+if noutputs > 0
+    set(handles.ConfigureControlSignalsButton,'Enable','on')
+else
+    set(handles.ConfigureControlSignalsButton,'Enable','off')
+end
+
+set(handles.Konsole,'String','outputs configured.')
+
 % rebuild the UI for manual control
 rebuildManualControlUI;
 

@@ -100,3 +100,4 @@ end
 if length(get(handles.InputChannelsList,'String'))
     s.startBackground;
 end
+

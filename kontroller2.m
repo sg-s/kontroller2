@@ -116,6 +116,9 @@ setappdata(handles.f1,'input_dump_handle',input_dump_handle);
 setappdata(handles.f1,'output_dump_handle',output_dump_handle);
 setappdata(handles.f1,'data',data);
 
+% rebuild the UI for manual control
+rebuildManualControlUI;
+
 reconfigureSession();
 
 % wipe the dump files from previous sessions

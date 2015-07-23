@@ -32,9 +32,17 @@ end
 if ~isempty(get(handles.ManualControlTab,'Children'))
     delete(get(handles.ManualControlTab,'Children'))
 end
+
 % terra nova
 OutputNames = get(handles.OutputChannelsList,'String');
 noutputs = length(OutputNames);
+
+%% add a save button 
+handles.MCSaveButton =  uicontrol(handles.ManualControlTab,'style','pushbutton','String','Save','Units','normalized','Position',[.05 .01 .9 .08],'Enable','off','Callback',@toggleSaveButton);
+FileName = getappdata(handles.f1,'FileName');
+if ~isempty(FileName)
+    set(handles.MCSaveButton,'Enable','on');
+end
 
 % get the names of the analogue and digital output channels
 OutputChannelNames = getappdata(handles.f1,'OutputChannelNames');
@@ -74,10 +82,3 @@ for i = 1:noutputs
     x = x+(1/(noutputs+1));
 end
 
-%% add a save button 
-handles.MCSaveButton =  uicontrol(handles.ManualControlTab,'style','pushbutton','String','Save','Units','normalized','Position',[.05 .01 .9 .08],'Enable','off','Callback',@toggleSaveButton);
-FileName = getappdata(handles.f1,'FileName');
-if ~isempty(FileName)
-    set(handles.MCSaveButton,'Enable','on');
-end
-    

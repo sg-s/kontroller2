@@ -36,6 +36,8 @@ and don't forget to add these folders to your `MATLAB path`
 
 ## Hacking 
 
+Read the [wiki](https://github.com/sg-s/kontroller2/wiki) for the most complete documentation. 
+
 ### Data structure 
 
 Saved data is stored in a MAT file in the variable `data`. `data` is a structure with the following fields:

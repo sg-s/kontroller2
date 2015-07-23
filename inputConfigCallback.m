@@ -29,5 +29,10 @@ for i = 1:length(InputChannelNames)
 end
 set(handles.InputChannelsList,'String',temp,'Value',1)
 
+set(handles.Konsole,'String','inputs configured.')
+
+% rebuild the UI for manual control
+rebuildManualControlUI;
+
 % reconfigure session
 reconfigureSession;
