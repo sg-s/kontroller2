@@ -35,17 +35,24 @@ ControlParadigmList = {};
 for i = 1:length(ControlParadigm)
     ControlParadigmList = [ControlParadigmList ControlParadigm(i).Name];
 end
+if isfield(handles,'ParadigmListDisplay')
+	delete(handles.ParadigmListDisplay)
+end
+% make a new paradigm list display
+handles.ParadigmListDisplay = uicontrol(handles.ParadigmTab,'Style','listbox','FontSize',12,'Units','normalized','Position',[0.01 0.2 .5 .5],'Max',10,'Min',1,'String','');
+
+
 set(handles.ParadigmListDisplay,'String',ControlParadigmList)
 
 set(handles.Konsole,'String','Controls have been configured. ')
 
 % update run button
-if isempty(SaveToFile)
-    set(RunTrialButton,'enable','on','String','RUN w/o saving','BackgroundColor',[0.9 0.1 0.1]);
+if isempty(getappdata(handles.f1,'file_name'))
+    set(handles.RunButton,'enable','on','String','RUN w/o saving','BackgroundColor',[0.9 0.1 0.1]);
 else
-    set(RunTrialButton,'enable','on','String','RUN and SAVE','BackgroundColor',[0.1 0.9 0.1]);
+    set(handles.RunButton,'enable','on','String','RUN and SAVE','BackgroundColor',[0.1 0.9 0.1]);
 end
 delete(fcs)
 
 % show the name
-set(ParadigmNameDisplay,'String',strrep(FileName,'_Kontroller_Paradigm.mat',''))
+set(handles.ParadigmNameDisplay,'String',strrep(FileName,'_Kontroller_Paradigm.mat',''))

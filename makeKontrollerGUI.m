@@ -43,11 +43,11 @@ if ispc
     handles.MetadataTab = uitab(handles.TabGroup,'Title','Metadata');
 
     % paradigm tab
-    handles.ConfigureControlSignalsButton = uicontrol(handles.ParadigmTab,'Position',[10 220 180 30],'Style','pushbutton','Enable','off','String','Configure Control','FontSize',10,'Callback',@loadSavedParadigms);
+    handles.ConfigureControlSignalsButton = uicontrol(handles.ParadigmTab,'Position',[10 220 180 30],'Style','pushbutton','Enable','on','String','Configure Control','FontSize',10,'Callback',@loadSavedParadigms);
 
     % run, pause and abort
     handles.RunButton = uicontrol(handles.ParadigmTab,'Position',[10 10 100 30],'Style','pushbutton','Enable','off','String','Run','FontSize',10,'Callback',@runTrial);
-    handles.PauseButton = uicontrol(handles.ParadigmTab,'Position',[170 10  100 30],'Style','pushbutton','Enable','off','String','Pause','FontSize',10,'Callback',@pause);
+    handles.PauseButton = uicontrol(handles.ParadigmTab,'Position',[170 10  100 30],'Style','pushbutton','Enable','off','String','Pause','FontSize',10,'Callback',@pauseTrial);
     handles.AbortButton = uicontrol(handles.ParadigmTab,'Position',[280 10 100 30],'Style','pushbutton','Enable','off','String','Abort','FontSize',10,'Callback',@abort);
 
     % save tab
