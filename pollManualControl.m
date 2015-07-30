@@ -13,6 +13,7 @@ try
         WriteBuffer(:,i) = get(handles.ManualControlSliders(i),'Value');
     end
 catch
+	disp('error 16 @ pollManualControl')
     % it's probably OK
 end
 s.queueOutputData(WriteBuffer);

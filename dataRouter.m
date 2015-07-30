@@ -20,6 +20,7 @@ if strcmp(event.EventName,'DataRequired')
         fwrite(output_dump_handle,WriteBuffer','double');
        
     end
+    disp(datestr(now))
     
 elseif strcmp(event.EventName,'DataAvailable')
     updateScopes(src,event);

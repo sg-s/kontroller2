@@ -87,6 +87,11 @@ if isfield(handles,'grabDataListener')
 end
 handles.grabDataListener = s.addlistener('DataRequired',@dataRouter);
 
+% set frequency of DataRequired Event
+s.NotifyWhenScansQueuedBelow = 2000; % in number of samples
+s.NotifyWhenDataAvailableExceeds = 1000;
+
+
 % queue some filler data
 WriteBuffer = zeros(s.NotifyWhenScansQueuedBelow,noutputs);
 
@@ -100,4 +105,6 @@ end
 if length(get(handles.InputChannelsList,'String'))
     s.startBackground;
 end
+
+keyboard
 

@@ -32,7 +32,13 @@ handles.OutputChannelsList = uicontrol(handles.OutputChannelsPanel,'Style','list
 % daq controls
 handles.ChooseDAQControl = uicontrol(handles.f1,'Style','popupmenu','String',{'Demo DAQ'},'Value',1,'FontSize',8,'Position',[160 550 140 40],'Callback',@chooseDAQControlCallback);
 uicontrol(handles.f1,'Position',[170 530 20 30],'Style','text','String','w=');
-handles.SamplingRateControl = uicontrol(handles.f1,'Position',[195 540 50 25],'Style','edit','String','1000','Callback',@samplingRateCallback);
+w = cache('SamplingRate');
+if ~isempty(w) && ~isnan(w)
+    w = mat2str(w);
+else
+    w = '1000';
+end
+handles.SamplingRateControl = uicontrol(handles.f1,'Position',[195 540 50 25],'Style','edit','String',w,'Callback',@samplingRateCallback);
 
 % control tab group
 if ispc
