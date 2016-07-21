@@ -1,130 +1,74 @@
-% kontroller2.m
-% event-based wrapper for MATLAB's DAQ toolbox
-% 
-% created by Srinivas Gorur-Shandilya at 6:02 , 10 April 2015. Contact me at http://srinivas.gs/contact/
-% 
-% This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. 
-% To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
+%% kontroller2
+% complete rewrite of the kontroller package based on a class-based interface
 
-function [] = kontroller2(varargin)
-VersionName= 'Kontroller2 v_beta2_';
-%% validate inputs
-gui = 0;
-RunTheseParadigms = [];
-ControlParadigm = []; % stores the actual control signals for the different control paradigm
-w = 1000; % 1kHz sampling  
-if nargin == 0 
-    % fine.
-    gui = 1; % default to showing the GUI
-elseif iseven(nargin)
-    for ii = 1:nargin
-        temp = varargin{ii};
-        if ischar(temp)
-            eval(strcat(temp,'=varargin{ii+1};'));
-        end
-    end
-    clear ii
-else
-    error('Inputs need to be name value pairs')
-end
+classdef kontroller2 < handle
 
-% make the gui
-global handles
-handles = makeKontrollerGUI(VersionName);
-
-% here are the core variables
-InputChannelNames = cache('InputChannelNames');
-temp = '';
-if ~isempty(InputChannelNames)
-    % add to the list of input channels
-    temp = {};
-    for i = 1:length(InputChannelNames)
-        if ~isempty(InputChannelNames{i})
-            temp{end+1} = InputChannelNames{i};
-        end
-    end
-end
-set(handles.InputChannelsList,'String',temp,'Value',1)
-OutputChannelNames = cache('OutputChannelNames');
-DigitalOutputChannelNames = cache('DigitalOutputChannelNames');
-temp = '';
-if ~isempty(OutputChannelNames)
-    % add to the list of output channels
-    temp = {};
-    for i = 1:length(OutputChannelNames)
-        if ~isempty(OutputChannelNames{i})
-            temp{end+1} = OutputChannelNames{i};
-        end
-    end
-end
-if ~isempty(DigitalOutputChannelNames)
-    % add to the list of output channels
-    for i = 1:length(DigitalOutputChannelNames)
-        if ~isempty(DigitalOutputChannelNames{i})
-            temp{end+1} = DigitalOutputChannelNames{i};
-        end
-    end
-end
-set(handles.OutputChannelsList,'String',temp,'Value',1)
-setappdata(handles.f1,'InputChannelNames',InputChannelNames);
-setappdata(handles.f1,'OutputChannelNames',OutputChannelNames);
-setappdata(handles.f1,'DigitalOutputChannelNames',DigitalOutputChannelNames);
-rebuildManualControlUI;
-
-% look for DAQs
-try
-    d(1) = daq.getDevices(); % this line takes a long time when you run it for the first time...
-catch
-    d.Subsystems(1).ChannelNames = {'ai0','ai1','ai2','ai3','ai4','ai5','ai6','ai7','ai8','ai9','ai10','ai11'};
-    d.Subsystems(2).ChannelNames = {'di0','di1'};
-    d.Subsystems(3).ChannelNames = {'do0','do1','do2','do3','do4','do5','do6','do7'};
-    d.Vendor.FullName = 'kontroller2 Demo';
-    d.Model = 'Demo';
-end
-
-setappdata(handles.f1,'d',d);
-setappdata(handles.f1,'handles',handles);
-
-if length(d) == 1
-    % only 1 daq
-    set(handles.ChooseDAQControl,'String',d.Model,'Value',1);
-    set(handles.ConfigureInputChannelButton,'Enable','on');
-    set(handles.ConfigureOutputChannelButton,'Enable','on');
-else
-    disp('more than 1 daq. not coded.')
-    % add to 
-    keyboard
-end
-
-% set up a session
-s = daq.createSession('ni');
-setappdata(handles.f1,'s',s);
-
-% store some entries for file name (to save in)
-file_name = [];
-path_name = [];
-setappdata(handles.f1,'file_name',file_name);
-setappdata(handles.f1,'path_name',path_name);
+    properties
+        sampling_rate = 1e4; % Hz
+        version_name = 'automatically-generated';
+        daq_handle
 
 
+        % hardware defined names of channels
+        output_channels 
+        input_channels
+        input_channel_ranges
+        output_digitial_channels
 
-% set some core variablesfor data buffering and saving
-data = struct;
-input_dump_handle = [];
-output_dump_handle = [];
-setappdata(handles.f1,'input_dump_handle',input_dump_handle);
-setappdata(handles.f1,'output_dump_handle',output_dump_handle);
-setappdata(handles.f1,'data',data);
+        % user defined names for channels
+        output_channel_names
+        input_channel_names
+        output_digitial_channel_names
 
-% rebuild the UI for manual control
-rebuildManualControlUI;
+        % UI
+        handles % a structure that handles everything else
 
-reconfigureSession();
+    end % end properties 
 
-% wipe the dump files from previous sessions
-if exist('input.k2') == 2
-    delete('input.k2');
-end
-if exist('output.k2') == 2
-    delete('output.k2');
-end
+    methods
+        function k = kontroller2(k)
+
+            opt.Input = 'file';
+            k.version_name = dataHash(fileparts(which(mfilename)),opt);
+            clear opt
+            disp(['kontroller version: ' k.version_name])
+
+            if ~nargout
+                warning('kontroller2 called without assigning to a object. kontroller2 will create an object called "k" in the workspace')
+                assignin('base','k',k);
+            end
+
+            try
+                k.daq_handle = daq.getDevices;
+            catch
+                error('Error reading DAQ devices. Do you have a NI device? Drivers installed? The DAQ toolbox installed?')
+            end
+
+            disp(['Using device: ' k.daq_handle.Model])
+
+
+            try
+                k.input_channels =  k.daq_handle(1).Subsystems(1).ChannelNames;
+                k.input_channel_ranges = 10*ones(length(k.input_channels),1);
+                k.output_channels =  k.daq_handle(1).Subsystems(2).ChannelNames;
+                k.output_digitial_channels = k.daq_handle(1).Subsystems(3).ChannelNames;
+            catch
+                error('Something went wrong when trying to talk to the NI device. This is probably because it is not plugged in properly. Try restarting the DAQ, and restart kontroller.')
+            end
+
+
+        end % end creation function
+
+        function k = configureInputs(k)
+            k = configureInputChannels(k);
+
+        end % end configureInputs
+
+        function k = inputConfigCallback(k,src,event)
+            keyboard
+
+        end % end inputConfigCallback
+
+    end % end methods
+
+end % end classdef
