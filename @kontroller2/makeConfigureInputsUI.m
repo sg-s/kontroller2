@@ -1,8 +1,8 @@
-%% configureInputChannels
+%% makeConfigureInputsUI
 % makes the UI to configure input channels 
 % the UX is largely inherited from kontroller (v1)
 % 
-function k = configureInputChannels(k)
+function k = makeConfigureInputsUI(k)
    
 disp('Generating UI to configure inputs...')
 

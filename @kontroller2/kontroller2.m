@@ -16,12 +16,15 @@ classdef kontroller2 < handle
         output_digitial_channels
 
         % user defined names for channels
-        output_channel_names
-        input_channel_names
-        output_digitial_channel_names
+        output_channel_names = {};
+        input_channel_names = {};
+        output_digitial_channel_names = {};
 
         % UI
         handles % a structure that handles everything else
+
+        % debug
+        verbosity = 10;
 
     end % end properties 
 
@@ -60,14 +63,9 @@ classdef kontroller2 < handle
         end % end creation function
 
         function k = configureInputs(k)
-            k = configureInputChannels(k);
+            k = makeConfigureInputsUI(k);
 
         end % end configureInputs
-
-        function k = inputConfigCallback(k,src,event)
-            keyboard
-
-        end % end inputConfigCallback
 
     end % end methods
 
