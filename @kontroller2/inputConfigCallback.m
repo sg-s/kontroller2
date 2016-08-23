@@ -7,5 +7,4 @@ function k = inputConfigCallback(k,src,event)
 
 	k.input_channel_names{find(strcmp(k.input_channels,src.Tag))} = s;
 
-
 end 

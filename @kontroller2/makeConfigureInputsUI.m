@@ -20,12 +20,12 @@ nspacing = Height/(n_input_channels/2);
 n = n_input_channels;
 for i = 1:n/2  
     % left side
-    uicontrol(k.handles.configure_input_channels_figure,'Position',[40 10+Height-i*nspacing 100 20],'Style', 'edit','FontSize',12,'Callback',@k.inputConfigCallback,'Tag',k.input_channels{i});
+    uicontrol(k.handles.configure_input_channels_figure,'Position',[40 10+Height-i*nspacing 100 20],'Style', 'edit','FontSize',12,'Callback',@k.inputConfigCallback,'Tag',k.input_channels{i},'String',k.input_channel_names{i});
     uicontrol(k.handles.configure_input_channels_figure,'Position',[7 10+Height-i*nspacing 25 20],'Style', 'edit','String',mat2str(k.input_channel_ranges(i)),'FontSize',10,'Callback',@k.inputConfigCallback,'Tag',['range_' k.input_channels{i}]);
     uicontrol(k.handles.configure_input_channels_figure,'Position',[160 10+Height-i*nspacing 50 20],'Style', 'text','String',k.input_channels{i},'FontSize',12);
 
     % right side
-    uicontrol(k.handles.configure_input_channels_figure,'Position',[300 10+Height-i*nspacing 100 20],'Style', 'edit','FontSize',12,'Callback',@k.inputConfigCallback,'Tag',k.input_channels{n/2+i});
+    uicontrol(k.handles.configure_input_channels_figure,'Position',[300 10+Height-i*nspacing 100 20],'Style', 'edit','FontSize',12,'Callback',@k.inputConfigCallback,'Tag',k.input_channels{n/2+i},'String',k.input_channel_names{n/2+i});
     uicontrol(k.handles.configure_input_channels_figure,'Position',[407 10+Height-i*nspacing 25 20],'Style', 'edit','String',mat2str(k.input_channel_ranges(n/2+i)),'FontSize',10,'Callback',@k.inputConfigCallback,'Tag',['range_' k.input_channels{n/2+i}]);
     uicontrol(k.handles.configure_input_channels_figure,'Position',[220 10+Height-i*nspacing 50 20],'Style', 'text','String',k.input_channels{n/2+i},'FontSize',12);
 end
