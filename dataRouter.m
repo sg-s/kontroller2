@@ -1,5 +1,6 @@
 % dataRouter
 % dataRouter is a function that routes data from and to 
+% kontroller 
 % 
 % 
 % created by Srinivas Gorur-Shandilya at 5:32 , 08 July 2015. Contact me at http://srinivas.gs/contact/
@@ -10,17 +11,18 @@ function dataRouter(src,event)
 global handles
 
 if strcmp(event.EventName,'DataRequired')
-    WriteBuffer = pollManualControl(src,event);
+    error('not coded')
+    % WriteBuffer = pollManualControl(src,event);
     
-    output_dump_handle = getappdata(handles.f1,'output_dump_handle');
-    if isempty(output_dump_handle)
-        % no need to save this shit
-    else
-        % save this shit
-        fwrite(output_dump_handle,WriteBuffer','double');
+    % output_dump_handle = getappdata(handles.f1,'output_dump_handle');
+    % if isempty(output_dump_handle)
+    %     % no need to save this shit
+    % else
+    %     % save this shit
+    %     fwrite(output_dump_handle,WriteBuffer','double');
        
-    end
-    disp(datestr(now))
+    % end
+    % disp(datestr(now))
     
 elseif strcmp(event.EventName,'DataAvailable')
     updateScopes(src,event);

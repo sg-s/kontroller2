@@ -1,6 +1,6 @@
 % callback function when user interacts with the configureInput window
 
-function k = inputConfigCallback(k,src,event)
+function k = inputConfigCallback(k,src,~)
     
 	% check it's OK
 	s = cleanString(src.String);

@@ -7,6 +7,10 @@ classdef kontroller2 < handle
         sampling_rate = 1e4; % Hz
         version_name = 'automatically-generated';
         daq_handle
+        session_handle
+
+        plugins
+
 
 
         % hardware defined names of channels
@@ -31,6 +35,18 @@ classdef kontroller2 < handle
     methods
         function k = kontroller2(k)
 
+            % check that the plugins folder is on the path
+            addpath([fileparts(fileparts(which(mfilename))) oss 'plugins']);
+
+            % get a list of plugins 
+
+            assert(ispc,'kontroller2 only works on Windows, because the DAQ toolbox only works on Windows.')
+
+            %% check for MATLAB dependencies
+            v = ver;
+            v = struct2cell(v);
+            j = find(strcmp('Data Acquisition Toolbox', v), 1);
+            assert(~isempty(find(strcmp('Data Acquisition Toolbox', v), 1)),'kontroller needs the <a href="http://www.mathworks.com/products/daq/">DAQ toolbox</a> to run, which was not detected. ')
 
             % is there already a saved version? 
             if exist('current_state.k2','file') == 2
@@ -78,6 +94,13 @@ classdef kontroller2 < handle
                 k.output_digital_channel_names = repmat({''},length(k.output_digital_channels),1);
             end
 
+            
+
+
+            % start a session
+            k.session_handle = daq.createSession('ni');
+            k.session_handle.Rate = k.sampling_rate;
+            reconfigureSession(k)
 
 
 
@@ -95,11 +118,30 @@ classdef kontroller2 < handle
 
         function delete(k)
 
+            release(k.session_handle)
+
             % save everything
             saveKontrollerState(k);
 
             delete(k)
         end
+
+        function k = set.sampling_rate(k,value)
+            assert(isint(value),'Sampling rate must be an integer')
+            assert(value>0,'Sampling rate must be positive')
+            assert(value<1e5,'Sampling Rate must be below 100kHz')
+            assert(~isnan(value),'Sampling Rate must be an integer')
+            assert(~isinf(value),'Sampling Rate must be an finite integer')
+            k.sampling_rate = value;
+            k.session_handle.Rate = k.sampling_rate;
+        end % end set sampling_rate
+
+        function k = set.input_channel_names(k,value)
+            % first, assign it and get that out of the way
+            k.input_channel_names = value;
+            reconfigureSession(k);
+        end
+
 
     end % end methods
 

@@ -4,4 +4,5 @@ function saveKontrollerState(k)
 
 k.handles = [];
 k.daq_handle = [];
+k.session_handle = [];
 save('current_state.k2','k');
