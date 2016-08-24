@@ -30,7 +30,9 @@ end
 
 
 % configure listeners
-k.handles.dataListener = k.session_handle.addlistener('DataAvailable',@dataRouter);
+k.handles.dataListener = k.session_handle.addlistener('DataAvailable',@k.dataRouter);
+
+% am I abusing the dataListener method to achieve my nefarious means? why not configure a single listener for each plugin? the problem with that approach is that the plugins have no way of modifying data in the kontroller object. so we can't do things like hide and show the scopes window at will from the kontroller object
 
 
 % % configure analgoue outputs

@@ -4,14 +4,12 @@
 classdef kontroller2 < handle
 
     properties
-        sampling_rate = 1e4; % Hz
         version_name = 'automatically-generated';
+
+        % DAQ-specific
+        sampling_rate = 1e4; % Hz
         daq_handle
         session_handle
-
-        plugins
-
-
 
         % hardware defined names of channels
         output_channels 
@@ -35,23 +33,20 @@ classdef kontroller2 < handle
     methods
         function k = kontroller2(k)
 
-            % check that the plugins folder is on the path
-            addpath([fileparts(fileparts(which(mfilename))) oss 'plugins']);
-
-            % get a list of plugins 
-
             assert(ispc,'kontroller2 only works on Windows, because the DAQ toolbox only works on Windows.')
 
             %% check for MATLAB dependencies
             v = ver;
             v = struct2cell(v);
-            j = find(strcmp('Data Acquisition Toolbox', v), 1);
             assert(~isempty(find(strcmp('Data Acquisition Toolbox', v), 1)),'kontroller needs the <a href="http://www.mathworks.com/products/daq/">DAQ toolbox</a> to run, which was not detected. ')
+
+
 
             % is there already a saved version? 
             if exist('current_state.k2','file') == 2
                 load('current_state.k2','-mat')
             end
+
 
             opt.Input = 'file';
             k.version_name = dataHash(fileparts(which(mfilename)),opt);
@@ -94,11 +89,10 @@ classdef kontroller2 < handle
                 k.output_digital_channel_names = repmat({''},length(k.output_digital_channels),1);
             end
 
-            
-
-
+        
             % start a session
             k.session_handle = daq.createSession('ni');
+            k.session_handle.IsContinuous = true;
             k.session_handle.Rate = k.sampling_rate;
             reconfigureSession(k)
 
@@ -117,6 +111,7 @@ classdef kontroller2 < handle
 
 
         function delete(k)
+            disp('kontroller2::delete called')
 
             release(k.session_handle)
 
@@ -141,6 +136,14 @@ classdef kontroller2 < handle
             k.input_channel_names = value;
             reconfigureSession(k);
         end
+
+        function k = start(k)
+            k.session_handle.startBackground;
+        end % end start
+
+        function k = stop(k)
+            k.session_handle.stop;
+        end % end stop
 
 
     end % end methods

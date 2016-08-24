@@ -1,11 +1,13 @@
 [![GPL License](http://img.shields.io/badge/license-GPL-blue.svg?style=flat)](http://opensource.org/licenses/GPL-2.0)
 
 # kontroller2
-A event-driven hardware I/O controller written around MATLAB's DAQ toolbox. Better than [kontroller](https://github.com/sg-s/kontroller). kontroller2 is currently under active development. 
+A event-driven hardware I/O controller written around MATLAB's DAQ toolbox. Better than [kontroller](https://github.com/sg-s/kontroller). kontroller2 is currently under active development, and does not work at all. Look at the [issues](https://github.com/sg-s/kontroller2/issues) for an idea of where this project is. 
 
 ## Features
 
-### Real-time control of analogue digital outputs
+### ~100ms manual control of analogue and digital outputs
+
+### Plugin architecture
 
 ### Unlimited data streaming to disk
 
@@ -37,6 +39,10 @@ and don't forget to add these folders to your `MATLAB path`
 ## Hacking 
 
 Read the [wiki](https://github.com/sg-s/kontroller2/wiki) for the most complete documentation. 
+
+### Plugins
+
+`kontroller` is built around a plugin architecture. Core parts of `kontroller`, including the oscilloscopes, data saving and manual control, are built using plugins. 
 
 ### Data structure 
 

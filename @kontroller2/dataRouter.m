@@ -7,8 +7,8 @@
 % 
 % This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. 
 % To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
-function dataRouter(src,event)
-global handles
+function dataRouter(k,src,event)
+
 
 if strcmp(event.EventName,'DataRequired')
     error('not coded')
@@ -25,18 +25,9 @@ if strcmp(event.EventName,'DataRequired')
     % disp(datestr(now))
     
 elseif strcmp(event.EventName,'DataAvailable')
-    updateScopes(src,event);
-    
-    % see if we need to stream data to file
-    input_dump_handle = getappdata(handles.f1,'input_dump_handle');
-    
-    if isempty(input_dump_handle)
-        % no need to save this shit
-    else
-        % save this shit
-        d = [event.Data event.TimeStamps]';
-        fwrite(input_dump_handle,d,'double');
-       
+    for i = 1:length(k.plugins)
+        k.plugins{i}(k,src,event);
     end
+
     
 end
