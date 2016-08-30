@@ -97,7 +97,6 @@ classdef kontroller2 < handle
             reconfigureSession(k)
 
 
-
         end % end creation function
 
         function k = configureInputs(k)

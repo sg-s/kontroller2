@@ -33,6 +33,8 @@ if nargin == 1
 		% make a action menu
 		k.handles.scopes.menu2 = uimenu('Label','Action');
 		uimenu(k.handles.scopes.menu2,'Label','Duplicate selected channels','Callback',@k.showScopes);
+		uimenu(k.handles.scopes.menu2,'Label','Start scopes','Callback',@k.showScopes);
+		uimenu(k.handles.scopes.menu2,'Label','Stop scopes','Callback',@k.showScopes);
 
 		% make a control for the buffer length:
 		k.handles.scopes.buffer_control = uicontrol(k.handles.scopes.fig_handle,'Style','edit','String','10000','Units','normalized','Position',[.95 .95 .05 .03],'Callback',@k.showScopes);
@@ -69,7 +71,11 @@ else
 				ylabel(k.handles.scopes.plots(i),plot_these{i},'FontWeight','bold')
 				buffer_length = str2double(k.handles.scopes.buffer_control.String);
 				k.handles.scopes.plot_data(i) = plot(k.handles.scopes.plots(i),NaN(buffer_length,1),NaN(buffer_length,1),'k');
-				k.handles.scopes.plot_data(i).Tag = plot_these{i};
+				this_tag = plot_these{i};
+				if any(strfind(this_tag,'copy'))
+					this_tag = strtrim(this_tag(1:strfind(this_tag,'copy')-1));
+				end
+				k.handles.scopes.plot_data(i).Tag = this_tag;
 			end
 
 		case 'Action'
@@ -93,6 +99,10 @@ else
 				for i = 1:length(new_channels)
 					uimenu(k.handles.scopes.menu1,'Label',new_channels{i},'Callback',@k.showScopes,'Checked','on');
 				end
+			case 'Start scopes'
+				k.start;
+			case 'Stop scopes'
+				k.stop;
 			end
 		end % end switch src.Parent.Label
 	case 'uicontrol'

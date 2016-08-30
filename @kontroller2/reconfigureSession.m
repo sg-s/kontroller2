@@ -24,13 +24,14 @@ end
 
 % now add the analogue inputs to the session
 add_these = k.input_channels(find(~cellfun(@isempty,k.input_channel_names)));
+input_channel_names =  k.input_channel_names(find(~cellfun(@isempty,k.input_channel_names)));
 for i = 1:length(add_these)
-    k.session_handle.addAnalogInputChannel(k.daq_handle.ID,add_these{i},'Voltage');
+    ch = k.session_handle.addAnalogInputChannel(k.daq_handle.ID,add_these{i},'Voltage');
+    ch.Name = input_channel_names{i};
 end
 
 
 % configure listeners
-k.handles.dataListener = k.session_handle.addlistener('DataAvailable',@k.dataRouter);
 k.handles.dataListener = k.session_handle.addlistener('DataAvailable',@k.k2p_A_scopesCallback);
 
 
