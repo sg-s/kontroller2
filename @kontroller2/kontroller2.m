@@ -35,6 +35,10 @@ classdef kontroller2 < handle
 
             assert(ispc,'kontroller2 only works on Windows, because the DAQ toolbox only works on Windows.')
 
+            % make sure a kontroller object doesn't already exist
+            base_var = evalin('base','whos'); 
+            assert(~any(find(strcmp('kontroller2',{base_var.class}))),'kontroller2 objects exist on the base workspace. Make sure you clear them from the workspace before initializing a new kontroller2 object')
+
             %% check for MATLAB dependencies
             v = ver;
             v = struct2cell(v);
@@ -131,9 +135,27 @@ classdef kontroller2 < handle
         end % end set sampling_rate
 
         function k = set.input_channel_names(k,value)
+
+            % make sure that name is not already reserved 
+            all_names = [k.output_channel_names; value];
+            all_names = all_names(~cellfun(@isempty,all_names));
+            assert(numel(unique(all_names)) == numel(all_names), 'Non unique input or output channel names. All names have to be unique.')
+
             % first, assign it and get that out of the way
             k.input_channel_names = value;
             reconfigureSession(k);
+        end
+
+        function k = set.output_channel_names(k,value)
+
+            % make sure that name is not already reserved 
+            all_names = [k.input_channel_names; value];
+            all_names = all_names(~cellfun(@isempty,all_names));
+            assert(numel(unique(all_names)) == numel(all_names), 'Non unique input or output channel names. All names have to be unique.')
+
+            % first, assign it and get that out of the way
+            k.output_channel_names = value;
+            % reconfigureSession(k);
         end
 
         function k = start(k)

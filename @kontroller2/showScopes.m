@@ -3,6 +3,11 @@
 %
 function [k] = showScopes(k,src,event)
 
+% debug
+if k.verbosity > 1
+    disp([mfilename ' called.'])
+end
+
 if nargin == 1
 	% this is not a callback from the scopes
 	% determine what state we are currently in
