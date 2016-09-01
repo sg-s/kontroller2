@@ -26,70 +26,65 @@ end
 add_these = k.input_channels(find(~cellfun(@isempty,k.input_channel_names)));
 input_channel_names =  k.input_channel_names(find(~cellfun(@isempty,k.input_channel_names)));
 for i = 1:length(add_these)
+	if k.verbosity > 1
+		disp(['Adding analogue input channel: ' add_these{i}])
+	end
     ch = k.session_handle.addAnalogInputChannel(k.daq_handle.ID,add_these{i},'Voltage');
     ch.Name = input_channel_names{i};
 end
 
+% now add the analogue outputs to the session
+add_these = k.output_channels(find(~cellfun(@isempty,k.output_channel_names)));
+output_channel_names =  k.output_channel_names(find(~cellfun(@isempty,k.output_channel_names)));
+for i = 1:length(add_these)
+	if k.verbosity > 1
+		disp(['Adding analogue output channel: ' add_these{i}])
+	end
+    ch = k.session_handle.addAnalogOutputChannel(k.daq_handle.ID,add_these{i},'Voltage');
+    ch.Name = output_channel_names{i};
+end
 
-% configure listeners
-k.handles.dataListener = k.session_handle.addlistener('DataAvailable',@k.k2p_A_scopesCallback);
+% now add the digital outputs to the session
+add_these = k.output_digital_channels(find(~cellfun(@isempty,k.output_digital_channel_names)));
+output_digital_channel_names =  k.output_digital_channel_names(find(~cellfun(@isempty,k.output_digital_channel_names)));
+for i = 1:length(add_these)
+	if k.verbosity > 1
+		disp(['Adding digital output channel: ' add_these{i}])
+	end
+    ch = k.session_handle.addDigitalChannel(k.daq_handle.ID,add_these{i},'OutputOnly');
+    ch.Name = output_digital_channel_names{i};
+end
 
-
-
-% % configure analgoue outputs
-% OutputChannels = get(d.Subsystems(2),'ChannelNames');
-% noutputs = 0;
-% if ~isempty(OutputChannelNames)
-%     for i = 1:length(OutputChannelNames)
-%         if ~isempty(OutputChannelNames{i})
-%             % add if not already added
-%             if ~any(find(strcmp({s.Channels.ID},OutputChannels{i}))) || isempty({s.Channels.ID})
-%                 s.addAnalogOutputChannel('Dev1',OutputChannels{i},'Voltage');
-%                 noutputs = noutputs+1;
-%             end
-%         end
-%     end
-% end
-
-% % configure digital outputs
-% DigitalOutputChannels = get(d.Subsystems(3),'ChannelNames');
-% if ~isempty(DigitalOutputChannelNames)
-%     for i = 1:length(DigitalOutputChannelNames)
-%         if ~isempty(DigitalOutputChannelNames{i})
-%             % add if not already added
-%             if ~any(find(strcmp({s.Channels.ID},DigitalOutputChannels{i}))) || isempty({s.Channels.ID})
-%                 s.addDigitalChannel('Dev1',DigitalOutputChannels{i}, 'OutputOnly');
-%                 noutputs = noutputs+1;
-%             end
-%         end
-%     end
-% end
+% make it run as fast as possible (on this computer, that is 20Hz)
+k.session_handle.NotifyWhenScansQueuedBelow = k.sampling_rate/20;
+k.session_handle.NotifyWhenDataAvailableExceeds = k.sampling_rate/20;
 
 
+% configure data available listeners
+allfiles = dir([fileparts(which(mfilename)) oss '*_A_*.m']);
+for i = 1:length(allfiles)
+	if k.verbosity > 1
+		disp(['Configuring plugin: ' allfiles(i).name])
+	end
+	k.handles.dataListener = k.session_handle.addlistener('DataAvailable',str2func(strrep(allfiles(i).name,'.m','')));
+end
 
+% configure data reguested listeners
+allfiles = dir([fileparts(which(mfilename)) oss '*_R_*.m']);
+for i = 1:length(allfiles)
+	if k.verbosity > 1
+		disp(['Configuring plugin: ' allfiles(i).name])
+	end
+	k.handles.dataListener = k.session_handle.addlistener('DataRequired',str2func(strrep(allfiles(i).name,'.m','')));
+end
 
-% if isfield(handles,'grabDataListener')
-%     delete(handles.grabDataListener);
-% end
-% handles.grabDataListener = s.addlistener('DataRequired',@dataRouter);
+% figure out how many outputs there are
+noutputs = sum(~(cellfun(@any,(cellfun(@(x) strfind(x,'ai'),{k.session_handle.Channels.ID},'UniformOutput',false)))));
+% why the fuck is this so complicated?
 
-% % % set frequency of DataRequired Event
-% s.NotifyWhenScansQueuedBelow = 1000; % in number of samples
-% s.NotifyWhenDataAvailableExceeds = 1000;
+% queue some empty data
+write_buffer = zeros(k.sampling_rate/20,noutputs);
+queueOutputData(k.session_handle,write_buffer);
 
-
-% % queue some filler data
-% WriteBuffer = zeros(s.NotifyWhenScansQueuedBelow,noutputs);
-
-% setappdata(handles.f1,'s',s);
-% setappdata(handles.f1,'WriteBuffer',WriteBuffer);
-
-% % start the task if something is configured
-% if ~isempty(WriteBuffer)
-%     s.queueOutputData(WriteBuffer);
-% end
-% if length(get(handles.InputChannelsList,'String'))
-%     s.startBackground;
-% end
 
 
