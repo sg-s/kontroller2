@@ -83,8 +83,10 @@ noutputs = sum(~(cellfun(@any,(cellfun(@(x) strfind(x,'ai'),{k.session_handle.Ch
 % why the fuck is this so complicated?
 
 % queue some empty data
-write_buffer = zeros(k.sampling_rate/20,noutputs);
-queueOutputData(k.session_handle,write_buffer);
+if noutputs
+	write_buffer = zeros(k.sampling_rate/20,noutputs);
+	queueOutputData(k.session_handle,write_buffer);
+end
 
 
 

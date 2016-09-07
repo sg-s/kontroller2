@@ -5,11 +5,14 @@ classdef kontroller2 < handle
 
     properties
         version_name = 'automatically-generated';
+        build_number = 'automatically-generated if you have git installed';
 
         % DAQ-specific
         sampling_rate = 1e4; % Hz
         daq_handle
         session_handle
+
+        control_mode
 
         % hardware defined names of channels
         output_channels 
@@ -32,6 +35,9 @@ classdef kontroller2 < handle
 
     methods
         function k = kontroller2(k)
+
+            % get the build_number
+            k.build_number = ['v' strtrim(fileread([fileparts(fileparts(which(mfilename))) oss 'build_number']))];
 
             assert(ispc,'kontroller2 only works on Windows, because the DAQ toolbox only works on Windows.')
 
