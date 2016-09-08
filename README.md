@@ -25,8 +25,8 @@ The recommended way to install `kontroller2` is to use my package manager:
 
 ```matlab
 >> urlwrite('http://srinivas.gs/install.m','install.m'); 
->> install kontroller2
->> install srinivas.gs_mtools
+>> install sg-s/kontroller2
+>> install sg-s/srinivas.gs_mtools
 ```
 if you have [git](http://www.git-scm.com/) installed, you can 
 
