@@ -67,4 +67,4 @@ data.trial{34}       % a scalar
 
 ## License 
 
-[GPL v2](http://choosealicense.com/licenses/gpl-2.0/#)
+[GPL v3](http://gplv3.fsf.org/)
