@@ -1,4 +1,7 @@
+% kontroller2 plugin
 % showManualControl
+% dataRequested 
+% 
 % rebuilds Manual Control Tab
 % 
 % created by Srinivas Gorur-Shandilya at 5:36 , 08 July 2015. Contact me at http://srinivas.gs/contact/

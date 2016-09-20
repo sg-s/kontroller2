@@ -34,7 +34,7 @@ classdef kontroller2 < handle
     end % end properties 
 
     methods
-        function k = kontroller2(k)
+        function k = kontroller2
 
             % get the build_number
             k.build_number = ['v' strtrim(fileread([fileparts(fileparts(which(mfilename))) oss 'build_number']))];
@@ -50,11 +50,9 @@ classdef kontroller2 < handle
             v = struct2cell(v);
             assert(~isempty(find(strcmp('Data Acquisition Toolbox', v), 1)),'kontroller needs the <a href="http://www.mathworks.com/products/daq/">DAQ toolbox</a> to run, which was not detected. ')
 
-
-
             % is there already a saved version? 
             if exist('current_state.k2','file') == 2
-                load('current_state.k2','-mat')
+                load('current_state.k2','-mat');
             end
 
 
@@ -98,7 +96,6 @@ classdef kontroller2 < handle
             if length(k.output_digital_channel_names) < length(k.output_digital_channels)
                 k.output_digital_channel_names = repmat({''},length(k.output_digital_channels),1);
             end
-
         
             % start a session
             k.session_handle = daq.createSession('ni');
@@ -133,6 +130,8 @@ classdef kontroller2 < handle
 
             delete(k)
         end
+
+
 
         function k = set.sampling_rate(k,value)
             assert(isint(value),'Sampling rate must be an integer')

@@ -73,23 +73,20 @@ k.session_handle.NotifyWhenScansQueuedBelow = k.sampling_rate/20;
 k.session_handle.NotifyWhenDataAvailableExceeds = k.sampling_rate/20;
 
 
-% configure data available listeners
-allfiles = dir([fileparts(which(mfilename)) oss '*_A_*.m']);
-for i = 1:length(allfiles)
+p = k.plugins;
+
+for i = 1:length(p)
 	if k.verbosity > 1
-		disp(['Configuring plugin: ' allfiles(i).name])
+		disp(['Configuring plugin: ' p(i).name])
 	end
-	k.handles.dataListener = k.session_handle.addlistener('DataAvailable',str2func(strrep(allfiles(i).name,'.m','')));
+
+	% configure data available listeners
+	if ~isempty(p(i).A_listeners)
+		k.handles.dataListener = k.session_handle.addlistener('DataAvailable',str2func(p(i).A_listeners));
+	end
 end
 
-% configure data reguested listeners
-allfiles = dir([fileparts(which(mfilename)) oss '*_R_*.m']);
-for i = 1:length(allfiles)
-	if k.verbosity > 1
-		disp(['Configuring plugin: ' allfiles(i).name])
-	end
-	k.handles.dataListener = k.session_handle.addlistener('DataRequired',str2func(strrep(allfiles(i).name,'.m','')));
-end
+
 
 % figure out how many outputs there are
 noutputs = sum(~(cellfun(@any,(cellfun(@(x) strfind(x,'ai'),{k.session_handle.Channels.ID},'UniformOutput',false)))));

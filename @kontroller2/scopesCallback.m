@@ -1,8 +1,12 @@
+% kontroller2 plugin
+% scopes
+% dataAvailable
+% 
 % plugin for kontroller
 % part of the scopes plugin
 % this callback should be executed when data is available. 
 
-function []  = k2p_A_scopesCallback(k,src,event)
+function []  = scopesCallback(k,src,event)
 
 % figure out what to plot
 for i = 1:length(k.handles.scopes.plot_data)
