@@ -10,21 +10,34 @@ if isempty(k.session_handle)
     return
 end
 
+if k.verbosity > 5
+	disp('reconfigureSession called')
+end
+
 if k.session_handle.IsRunning
     k.session_handle.stop;
 end
 
 % remove all channels from the session
 if isempty({k.session_handle.Channels.ID})
-    disp('reconfigureSession:: no channels exist in session')
+	if k.verbosity > 5
+    	disp('reconfigureSession:: no channels exist in session')
+    end
 else
-    disp('reconfigureSession:: channels exist in session, need to be removed')
-    removeChannel(k.session_handle,(1:length(k.session_handle.Channels)));
+	if k.verbosity > 5
+    	disp('reconfigureSession:: channels exist in session, need to be removed')
+    end
+
+    try
+    	removeChannel(k.session_handle,(1:length(k.session_handle.Channels)));
+    catch
+    	% a stupid error blocks execution when we run removeChannel. It tries to set DurationInSeconds, but it shouldn't. this is because we queued data for a channel that we then want to remove. see https://github.com/sg-s/kontroller2/issues/23
+    end
 end
 
 % now add the analogue inputs to the session
-add_these = k.input_channels(find(~cellfun(@isempty,k.input_channel_names)));
-input_channel_names =  k.input_channel_names(find(~cellfun(@isempty,k.input_channel_names)));
+add_these = k.input_channels(~cellfun(@isempty,k.input_channel_names));
+input_channel_names =  k.input_channel_names(~cellfun(@isempty,k.input_channel_names));
 for i = 1:length(add_these)
 	if k.verbosity > 1
 		disp(['Adding analogue input channel: ' add_these{i}])
@@ -34,8 +47,8 @@ for i = 1:length(add_these)
 end
 
 % now add the analogue outputs to the session
-add_these = k.output_channels(find(~cellfun(@isempty,k.output_channel_names)));
-output_channel_names =  k.output_channel_names(find(~cellfun(@isempty,k.output_channel_names)));
+add_these = k.output_channels(~cellfun(@isempty,k.output_channel_names));
+output_channel_names =  k.output_channel_names(~cellfun(@isempty,k.output_channel_names));
 for i = 1:length(add_these)
 	if k.verbosity > 1
 		disp(['Adding analogue output channel: ' add_these{i}])
@@ -45,8 +58,8 @@ for i = 1:length(add_these)
 end
 
 % now add the digital outputs to the session
-add_these = k.output_digital_channels(find(~cellfun(@isempty,k.output_digital_channel_names)));
-output_digital_channel_names =  k.output_digital_channel_names(find(~cellfun(@isempty,k.output_digital_channel_names)));
+add_these = k.output_digital_channels(~cellfun(@isempty,k.output_digital_channel_names));
+output_digital_channel_names =  k.output_digital_channel_names(~cellfun(@isempty,k.output_digital_channel_names));
 for i = 1:length(add_these)
 	if k.verbosity > 1
 		disp(['Adding digital output channel: ' add_these{i}])

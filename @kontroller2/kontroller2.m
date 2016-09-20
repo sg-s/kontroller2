@@ -120,9 +120,13 @@ classdef kontroller2 < handle
 
 
         function delete(k)
-            disp('kontroller2::delete called')
+            if k.verbosity > 5
+                disp('kontroller2::delete called')
+            end
 
-            release(k.session_handle)
+            if ~isempty(k.session_handle)
+                release(k.session_handle)
+            end
 
             % save everything
             saveKontrollerState(k);
