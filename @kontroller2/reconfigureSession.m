@@ -82,7 +82,7 @@ for i = 1:length(p)
 
 	% configure data available listeners
 	if ~isempty(p(i).A_listeners)
-		k.handles.dataListener = k.session_handle.addlistener('DataAvailable',str2func(p(i).A_listeners));
+		k.handles.dataListener(i) = k.session_handle.addlistener('DataAvailable',str2func(p(i).A_listeners));
 	end
 end
 

@@ -36,7 +36,7 @@ if nargin == 1
 		k.handles.scopes.menu1 = uimenu('Label','Channels');
 		input_channel_names = k.input_channel_names(~cellfun(@isempty,k.input_channel_names));
 		for i = 1:length(input_channel_names)
-			uimenu(k.handles.scopes.menu1,'Label',input_channel_names{i},'Callback',@showScopes,'Checked','off');
+			uimenu(k.handles.scopes.menu1,'Label',input_channel_names{i},'Callback',@k.showScopes,'Checked','off');
 		end
 
 		% make a action menu

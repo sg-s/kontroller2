@@ -6,7 +6,7 @@
 % part of the scopes plugin
 % this callback should be executed when data is available. 
 
-function []  = scopesCallback(k,src,event)
+function [k] = scopesCallback(k,src,event)
 
 % figure out what to plot
 for i = 1:length(k.handles.scopes.plot_data)
