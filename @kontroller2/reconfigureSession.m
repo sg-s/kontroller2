@@ -68,6 +68,8 @@ for i = 1:length(add_these)
     ch.Name = output_digital_channel_names{i};
 end
 
+
+
 % make it run as fast as possible (on this computer, that is 20Hz)
 k.session_handle.NotifyWhenScansQueuedBelow = k.sampling_rate/20;
 k.session_handle.NotifyWhenDataAvailableExceeds = k.sampling_rate/20;
@@ -82,10 +84,12 @@ for i = 1:length(p)
 
 	% configure data available listeners
 	if ~isempty(p(i).A_listeners)
-		k.handles.dataListener(i) = k.session_handle.addlistener('DataAvailable',str2func(p(i).A_listeners));
+		% this incredibly stupid piece of code follows because this is the only way I know of to construct a handle to a method of an object. try something else, and it will break. 
+		eval(['temp_handle=@k.',p(i).A_listeners,';'])
+		k.handles.dataListener(i) = k.session_handle.addlistener('DataAvailable',temp_handle);
+		
 	end
 end
-
 
 
 % figure out how many outputs there are
