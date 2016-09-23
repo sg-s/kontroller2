@@ -74,7 +74,7 @@ end
 k.session_handle.NotifyWhenScansQueuedBelow = k.sampling_rate/20;
 k.session_handle.NotifyWhenDataAvailableExceeds = k.sampling_rate/20;
 
-
+% configure plugins for dataAvailble events
 p = k.plugins;
 
 for i = 1:length(p)
@@ -86,11 +86,20 @@ for i = 1:length(p)
 	if ~isempty(p(i).A_listeners)
 		% this incredibly stupid piece of code follows because this is the only way I know of to construct a handle to a method of an object. try something else, and it will break. 
 		eval(['temp_handle=@k.',p(i).A_listeners,';'])
-		k.handles.dataListener(i) = k.session_handle.addlistener('DataAvailable',temp_handle);
+
+		k.handles.dataAvaiListener{i} = k.session_handle.addlistener('DataAvailable',temp_handle);
 		
 	end
 end
 
+% configure plugins for DataRequired events
+if isempty(k.control_mode)
+	return
+else
+	configure_this = find(cellfun(@any,(cellfun(@(x) strfind(x,k.control_mode),{p.name},'UniformOutput',false)))); % so fucking complicated. all we want to do is find out which plugin has the same name as k.control_mode
+	eval(['temp_handle=@k.',p(configure_this).R_listeners,';'])
+	k.handles.dataReqListener{configure_this} = k.session_handle.addlistener('DataRequired',temp_handle);
+end
 
 % figure out how many outputs there are
 noutputs = sum(~(cellfun(@any,(cellfun(@(x) strfind(x,'ai'),{k.session_handle.Channels.ID},'UniformOutput',false)))));

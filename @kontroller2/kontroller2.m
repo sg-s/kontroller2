@@ -52,7 +52,16 @@ classdef kontroller2 < handle
 
             % is there already a saved version? 
             if exist('current_state.k2','file') == 2
-                load('current_state.k2','-mat');
+                try
+                    load('current_state.k2','-mat');
+                catch er
+                    if strcmp(er.identifier,'MATLAB:load:unableToReadMatFile')
+                        disp('Corrupted .k2 file, deleting...')
+                        delete('current_state.k2')
+                    else
+                        warning('kontroller2 could not load the current_state.k2 file for some reason.')
+                    end
+                end
             end
 
 
@@ -164,7 +173,7 @@ classdef kontroller2 < handle
 
             % first, assign it and get that out of the way
             k.output_channel_names = value;
-            % reconfigureSession(k);
+            reconfigureSession(k);
         end
 
         function k = start(k)

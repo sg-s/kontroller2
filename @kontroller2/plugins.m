@@ -1,7 +1,7 @@
 %% plugins.m
 % shows the installed plugins with associated methods
 % 
-function p = plugins(k)
+function varargout = plugins(k)
 
 p.name = '';
 p.A_listeners = '';
@@ -32,10 +32,10 @@ for i = 1:length(m)
         p(c).name = name;
     end
     event_trigger = strtrim(strrep(t{3},'%',''));
-    if any(strfind(event_trigger,'dataAvailable'))
+    if any(strfind(event_trigger,'DataAvailable'))
         p(c).A_listeners = m(i).name(1:end-2);
     end
-    if any(strfind(event_trigger,'dataRequested'))
+    if any(strfind(event_trigger,'DataRequired'))
         p(c).R_listeners = m(i).name(1:end-2);
     end
     if isempty(event_trigger)
@@ -46,14 +46,16 @@ end
 if ~nargout
     for i = 1:length(p)
         if ~isempty(p(i).A_listeners) && isempty(p(i).R_listeners)
-            disp(['+ ' p(i).name '  (triggered by: dataAvailable)'])
+            disp(['+ ' p(i).name '  (triggered by: DataAvailable)'])
         elseif isempty(p(i).A_listeners) && ~isempty(p(i).R_listeners)
-            disp(['+ ' p(i).name '  (triggered by: dataRequested)'])
+            disp(['+ ' p(i).name '  (triggered by: DataRequired)'])
         else
-            disp(['+ ' p(i).name '  (triggered by: dataAvailable, dataRequested)'])
+            disp(['+ ' p(i).name '  (triggered by: DataAvailable, DataRequired)'])
         end
         for j = 1:length(p(i).method_names)
             disp(['-> ' p(i).method_names{j}])
         end
     end
+else
+    varargout{1} = p;
 end

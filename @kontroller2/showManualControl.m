@@ -1,6 +1,6 @@
 % kontroller2 plugin
-% showManualControl
-% dataRequested 
+% manual-control
+%  
 % 
 % rebuilds Manual Control Tab
 % 
