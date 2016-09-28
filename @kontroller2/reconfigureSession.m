@@ -11,7 +11,7 @@ if isempty(k.session_handle)
 end
 
 if k.verbosity > 5
-	disp('reconfigureSession called')
+	disp('[INFO] reconfigureSession called')
 end
 
 if k.session_handle.IsRunning
@@ -21,11 +21,11 @@ end
 % remove all channels from the session
 if isempty({k.session_handle.Channels.ID})
 	if k.verbosity > 5
-    	disp('reconfigureSession:: no channels exist in session')
+    	disp('[INFO] reconfigureSession:: no channels exist in session')
     end
 else
 	if k.verbosity > 5
-    	disp('reconfigureSession:: channels exist in session, need to be removed')
+    	disp('[INFO] reconfigureSession:: channels exist in session, need to be removed')
     end
 
     try
@@ -40,7 +40,7 @@ add_these = k.input_channels(~cellfun(@isempty,k.input_channel_names));
 input_channel_names =  k.input_channel_names(~cellfun(@isempty,k.input_channel_names));
 for i = 1:length(add_these)
 	if k.verbosity > 1
-		disp(['Adding analogue input channel: ' add_these{i}])
+		disp(['[INFO] Adding analogue input channel: ' add_these{i}])
 	end
     ch = k.session_handle.addAnalogInputChannel(k.daq_handle.ID,add_these{i},'Voltage');
     ch.Name = input_channel_names{i};
@@ -51,7 +51,7 @@ add_these = k.output_channels(~cellfun(@isempty,k.output_channel_names));
 output_channel_names =  k.output_channel_names(~cellfun(@isempty,k.output_channel_names));
 for i = 1:length(add_these)
 	if k.verbosity > 1
-		disp(['Adding analogue output channel: ' add_these{i}])
+		disp(['[INFO] Adding analogue output channel: ' add_these{i}])
 	end
     ch = k.session_handle.addAnalogOutputChannel(k.daq_handle.ID,add_these{i},'Voltage');
     ch.Name = output_channel_names{i};
@@ -62,7 +62,7 @@ add_these = k.output_digital_channels(~cellfun(@isempty,k.output_digital_channel
 output_digital_channel_names =  k.output_digital_channel_names(~cellfun(@isempty,k.output_digital_channel_names));
 for i = 1:length(add_these)
 	if k.verbosity > 1
-		disp(['Adding digital output channel: ' add_these{i}])
+		disp(['[INFO] Adding digital output channel: ' add_these{i}])
 	end
     ch = k.session_handle.addDigitalChannel(k.daq_handle.ID,add_these{i},'OutputOnly');
     ch.Name = output_digital_channel_names{i};
@@ -70,16 +70,16 @@ end
 
 
 
-% make it run as fast as possible (on this computer, that is 20Hz)
-k.session_handle.NotifyWhenScansQueuedBelow = k.sampling_rate/20;
-k.session_handle.NotifyWhenDataAvailableExceeds = k.sampling_rate/20;
+% make it run as fast as possible (on this computer, that is 10Hz)
+% k.session_handle.NotifyWhenScansQueuedBelow = k.sampling_rate/10;
+% k.session_handle.NotifyWhenDataAvailableExceeds = k.sampling_rate/10;
 
 % configure plugins for dataAvailble events
 p = k.plugins;
 
 for i = 1:length(p)
 	if k.verbosity > 1
-		disp(['Configuring plugin: ' p(i).name])
+		disp(['[INFO] Configuring plugin: ' p(i).name])
 	end
 
 	% configure data available listeners
@@ -107,7 +107,7 @@ noutputs = sum(~(cellfun(@any,(cellfun(@(x) strfind(x,'ai'),{k.session_handle.Ch
 
 % queue some empty data
 if noutputs
-	write_buffer = zeros(k.sampling_rate/20,noutputs);
+	write_buffer = zeros(k.session_handle.NotifyWhenScansQueuedBelow,noutputs);
 	queueOutputData(k.session_handle,write_buffer);
 end
 

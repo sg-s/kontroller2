@@ -30,7 +30,7 @@ if nargin == 1
 		figure_exists = false;
 	end
 	if ~figure_exists
-		k.handles.scopes.fig_handle = figure('Position',[80 80 1300 800],'Toolbar','none','Menubar','none','resize','off','Name','Oscilloscope','NumberTitle','off');
+		k.handles.scopes.fig_handle = figure('Position',[80 80 1300 800],'Toolbar','none','Menubar','none','resize','on','Name','Oscilloscope','NumberTitle','off');
 
 		% make plots menu
 		k.handles.scopes.menu1 = uimenu('Label','Channels');
@@ -79,7 +79,7 @@ else
 				hold on
 				ylabel(k.handles.scopes.plots(i),plot_these{i},'FontWeight','bold')
 				buffer_length = str2double(k.handles.scopes.buffer_control.String);
-				k.handles.scopes.plot_data(i) = plot(k.handles.scopes.plots(i),NaN(buffer_length,1),NaN(buffer_length,1),'k');
+				k.handles.scopes.plot_data(i) = plot(k.handles.scopes.plots(i),zeros(buffer_length,1),NaN(buffer_length,1),'k');
 				this_tag = plot_these{i};
 				if any(strfind(this_tag,'copy'))
 					this_tag = strtrim(this_tag(1:strfind(this_tag,'copy')-1));

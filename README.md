@@ -1,4 +1,4 @@
-[![GPL License](http://img.shields.io/badge/license-GPL-blue.svg?style=flat)](http://opensource.org/licenses/GPL-2.0)
+[![GPL License](http://img.shields.io/badge/license-GPL-blue.svg?style=flat)](http://opensource.org/licenses/GPL-3.0)
 
 # kontroller2
 A modern, event-driven hardware I/O controller written around MATLAB's DAQ toolbox. Better than [kontroller](https://github.com/sg-s/kontroller). kontroller2 is currently under active development, and does not work at all. Look at the [kanban](https://github.com/sg-s/kontroller2/projects/1) for an idea of where this project is. 
@@ -44,9 +44,9 @@ Plugin architecture make the code highly modular, and almost everything can be r
 The recommended way to install `kontroller2` is to use my package manager:
 
 ```matlab
->> urlwrite('http://srinivas.gs/install.m','install.m'); 
->> install sg-s/kontroller2
->> install sg-s/srinivas.gs_mtools
+urlwrite('http://srinivas.gs/install.m','install.m'); 
+install sg-s/kontroller2
+install sg-s/srinivas.gs_mtools
 ```
 if you have [git](http://www.git-scm.com/) installed, you can 
 

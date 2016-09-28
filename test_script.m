@@ -5,8 +5,12 @@ close all
 rehash
 
 k = kontroller2;
+k.sampling_rate = 1000;
 
-k.input_channel_names{3} = 'PID';
-k.input_channel_names{4} = 'Ground';
-k.input_channel_names{4} = 'MFC1';
-k.output_channel_names{1} = 'MFC1_control';
+k.input_channel_names{2} = 'MFC1_Flow';
+k.input_channel_names{1} = 'Ground';
+k.output_channel_names{2} = 'MFC1';
+k.control_mode = 'manual-control';
+
+k.showScopes;
+k.showManualControl;

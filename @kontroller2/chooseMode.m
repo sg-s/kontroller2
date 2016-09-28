@@ -32,5 +32,4 @@ if nargin == 1
 else
 	% this is a callback
 	k.control_mode = src.String{(src.Value)};
-	k.reconfigureSession;
 end
