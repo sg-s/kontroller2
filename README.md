@@ -61,22 +61,25 @@ and don't forget to add these folders to your `MATLAB path`
 
 Saved data is stored in a MAT file in the variable `data`. `data` is a structure with the following fields:
 ```
+* --inputs--
 * Input1        (dynamically 
 * Input2        named based on
 * ...           what you configure
 * InputN        your input channels)
+*
+* --outputs--
+* Output1		(dynamically 
+* Output2		named based on
+* ...			what you configure
+* OutputN		your output channels)
+* 
+* --additional data--
 * paradigm      stores paradigm name, if this comes from a control paradigm 
 * trial         stores trial #, if this comes from a control paradigm
-* Outputs       stores the actual outputs written during this trial.
+* control_mode	how was kontroller being controlled? 
 ```
 
-Each field is a cell array, so, for example:
-
-```
-data.voltage{34}     % is a vector that is M samples long
-data.Outputs{34}     % a matrix also M samples long
-data.trial{34}       % a scalar
-```
+`data` is a structure array, so the first trial is stored in `data(1)` and so on. 
 
 ## License 
 

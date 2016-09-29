@@ -53,6 +53,13 @@ if ~figure_exists
     for i = 1:noutputs
 
         k.handles.manual_control.sliders(i) = uicontrol(k.handles.manual_control.fig_handle,'style','slider','Value',0,'Units','normalized','Position',[.1+x .28 w .6]);
+
+        % try    % R2013b and older
+        %    addlistener(k.handles.manual_control.sliders(i),'ActionEvent',@k.manualControlCallback);
+        % catch  % R2014a and newer
+        %    addlistener(k.handles.manual_control.sliders(i),'ContinuousValueChange',@k.manualControlCallback);
+        % end
+        
         k.handles.manual_control.slider_labels(i) = uicontrol(k.handles.manual_control.fig_handle,'style','text','String',output_channel_names{i},'Units','normalized','Position',[.1+x-(w) .05 3*w .1],'FontWeight','bold');
 
         % figure out if this is a digital or a analogue output

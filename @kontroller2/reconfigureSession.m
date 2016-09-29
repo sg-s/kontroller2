@@ -11,7 +11,8 @@ if isempty(k.session_handle)
 end
 
 if k.verbosity > 5
-	disp('[INFO] reconfigureSession called')
+	cprintf('green','[INFO] ')
+	cprintf('text','reconfigureSession called\n')
 end
 
 if k.session_handle.IsRunning
@@ -21,11 +22,13 @@ end
 % remove all channels from the session
 if isempty({k.session_handle.Channels.ID})
 	if k.verbosity > 5
-    	disp('[INFO] reconfigureSession:: no channels exist in session')
+    	cprintf('green','[INFO] ')
+    	cprintf('text','reconfigureSession:: no channels exist in session\n')
     end
 else
 	if k.verbosity > 5
-    	disp('[INFO] reconfigureSession:: channels exist in session, need to be removed')
+    	cprintf('green','[INFO] ')
+    	cprintf('text','reconfigureSession:: channels exist in session, need to be removed\n')
     end
 
     try
@@ -40,7 +43,8 @@ add_these = k.input_channels(~cellfun(@isempty,k.input_channel_names));
 input_channel_names =  k.input_channel_names(~cellfun(@isempty,k.input_channel_names));
 for i = 1:length(add_these)
 	if k.verbosity > 1
-		disp(['[INFO] Adding analogue input channel: ' add_these{i}])
+		cprintf('green','[INFO] ')
+		cprintf('text',['Adding analogue input channel: ' add_these{i} ,'\n'])
 	end
     ch = k.session_handle.addAnalogInputChannel(k.daq_handle.ID,add_these{i},'Voltage');
     ch.Name = input_channel_names{i};
@@ -51,7 +55,8 @@ add_these = k.output_channels(~cellfun(@isempty,k.output_channel_names));
 output_channel_names =  k.output_channel_names(~cellfun(@isempty,k.output_channel_names));
 for i = 1:length(add_these)
 	if k.verbosity > 1
-		disp(['[INFO] Adding analogue output channel: ' add_these{i}])
+		cprintf('green','[INFO]')
+		cprintf('text',['Adding analogue output channel: ' add_these{i},'\n'])
 	end
     ch = k.session_handle.addAnalogOutputChannel(k.daq_handle.ID,add_these{i},'Voltage');
     ch.Name = output_channel_names{i};
@@ -62,7 +67,8 @@ add_these = k.output_digital_channels(~cellfun(@isempty,k.output_digital_channel
 output_digital_channel_names =  k.output_digital_channel_names(~cellfun(@isempty,k.output_digital_channel_names));
 for i = 1:length(add_these)
 	if k.verbosity > 1
-		disp(['[INFO] Adding digital output channel: ' add_these{i}])
+		cprintf('green','[INFO] ')
+		cprintf('text',['Adding digital output channel: ' add_these{i},'\n'])
 	end
     ch = k.session_handle.addDigitalChannel(k.daq_handle.ID,add_these{i},'OutputOnly');
     ch.Name = output_digital_channel_names{i};
@@ -79,7 +85,8 @@ p = k.plugins;
 
 for i = 1:length(p)
 	if k.verbosity > 1
-		disp(['[INFO] Configuring plugin: ' p(i).name])
+		cprintf('green','[INFO] ')
+		cprintf('text',['Configuring plugin: ' p(i).name,'\n'])
 	end
 
 	% configure data available listeners

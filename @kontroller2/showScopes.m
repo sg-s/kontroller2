@@ -5,7 +5,7 @@
 % plugin for kontroller2
 % creates scopes UI
 %
-function [k] = showScopes(k,src,event)
+function [k] = showScopes(k,src,~)
 
 % debug
 if k.verbosity > 1

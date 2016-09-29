@@ -4,6 +4,7 @@
 classdef kontroller2 < handle
 
     properties
+        % meta
         version_name = 'automatically-generated';
         build_number = 'automatically-generated if you have git installed';
 
@@ -12,7 +13,11 @@ classdef kontroller2 < handle
         daq_handle
         session_handle
 
+        % operations
         control_mode
+        data_path
+        last_timestamp_logged = 0;
+        data = []; % stores the data, in kontroller2 format 
 
         % hardware defined names of channels
         output_channels 
@@ -56,10 +61,12 @@ classdef kontroller2 < handle
                     load('current_state.k2','-mat');
                 catch er
                     if strcmp(er.identifier,'MATLAB:load:unableToReadMatFile')
-                        disp('[WARN] Corrupted .k2 file, deleting...')
+                        cprintf('red','[WARN] ')
+                        fprintf('Corrupted .k2 file, deleting...\n')
                         delete('current_state.k2')
                     else
-                        disp('[WARN] kontroller2 could not load the current_state.k2 file for some reason.')
+                        cprintf('red','[WARN] ')
+                        fprintf('kontroller2 could not load the current_state.k2 file for some reason.\n')
                     end
                 end
             end
@@ -68,10 +75,12 @@ classdef kontroller2 < handle
             opt.Input = 'file';
             k.version_name = dataHash(fileparts(which(mfilename)),opt);
             clear opt
-            disp(['[INFO] kontroller version: ' k.version_name])
+            cprintf('green', '[INFO] ')
+            cprintf('text',['kontroller version: ' k.version_name '\n'])
 
             if ~nargout
-                disp('[WARN] kontroller2 called without assigning to a object. kontroller2 will create an object called "k" in the workspace')
+                cprintf('red','[WARN] ')
+                cprintf('text','kontroller2 called without assigning to a object. kontroller2 will create an object called "k" in the workspace\n')
                 assignin('base','k',k);
             end
 
@@ -81,7 +90,8 @@ classdef kontroller2 < handle
                 error('[ERR] Error reading DAQ devices. Do you have a NI device? Drivers installed? The DAQ toolbox installed?')
             end
 
-            disp(['[INFO]  Using device: ' k.daq_handle(1).Model])
+            cprintf('green','[INFO] ')
+            cprintf('text',['Using device: ' k.daq_handle(1).Model '\n'])
 
 
             try
@@ -127,15 +137,19 @@ classdef kontroller2 < handle
 
         function delete(k)
             if k.verbosity > 5
-                disp('[INFO] kontroller2::delete called')
+                cprintf('green','[INFO] ')
+                cprintf('text','kontroller2 -> delete called \n')
             end
 
             if ~isempty(k.session_handle)
-                release(k.session_handle)
+                release(k.session_handle);
             end
 
             % save everything
             saveKontrollerState(k);
+
+            % make sure there are no dumps on disk
+            wipeDumps(k);
 
             delete(k)
         end
@@ -181,13 +195,40 @@ classdef kontroller2 < handle
         end
 
         function k = start(k)
-            disp('[INFO] Starting acquisition...')
+            cprintf('green','[INFO] ');
+            cprintf('text','Starting acquisition...\n');
+
+            % make sure there are no dumps on disk
+            wipeDumps(k);
+
+            % generate handles for input and output dumps
+            k.handles.input_dump = fopen('input.k2','W');
+            k.handles.output_dump = fopen('output.k2','W');
+
             k.session_handle.startBackground;
         end % end start
 
         function k = stop(k)
-            disp('[INFO] Stopping acquisition...')
+            cprintf('green','[INFO] ')
+            cprintf('text','Stopping acquisition...\n')
             k.session_handle.stop;
+
+            % close the dump files
+            fclose(k.handles.input_dump);
+            fclose(k.handles.output_dump);
+
+            % if a data_path is configured, convert the dump into a .k2data file 
+            if isempty(k.data_path)
+                % don't save dump
+                cprintf('red','[WARN] ')
+                cprintf('text','No data_path configured, discarding data dump...\n')
+            else
+                cprintf('green','[INFO] ')
+                cprintf('text','Assembling data dump into a .k2data file...\n')
+                dump2mat(k)
+            end
+
+
         end % end stop
 
 

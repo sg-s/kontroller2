@@ -10,11 +10,22 @@ function [k] = scopesCallback(k,~,event)
 
 % first check if there is anything new
 
-if (event.TimeStamps(end)) > k.handles.scopes.plot_data(1).XData(end)
-else
+try
+	if (event.TimeStamps(end)) > k.handles.scopes.plot_data(1).XData(end)
+	else
+		return
+	end
+catch
 	return
 end
 
+try
+	if ~isvalid(k.handles.scopes.fig_handle)
+		return
+	end
+catch
+	return
+end
 
 % figure out what to plot
 for i = 1:length(k.handles.scopes.plot_data)
