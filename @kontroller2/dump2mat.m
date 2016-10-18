@@ -30,7 +30,6 @@ if f < 0
     return
 end
 
-f = fopen('output.k2','r');
 output_dump = fread(f,'double');
 fclose(f);
 output_dump = reshape(output_dump,noutputs,length(output_dump)/(noutputs))';

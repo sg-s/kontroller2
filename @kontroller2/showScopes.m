@@ -109,6 +109,12 @@ else
 					uimenu(k.handles.scopes.menu1,'Label',new_channels{i},'Callback',@k.showScopes,'Checked','on');
 				end
 			case 'Start scopes'
+				% clear scopes
+				buffer_length = str2double(k.handles.scopes.buffer_control.String);
+				for i = 1:length(k.handles.scopes.plot_data)
+					k.handles.scopes.plot_data(i).XData = zeros(buffer_length,1);
+					k.handles.scopes.plot_data(i).YData = NaN(buffer_length,1);
+				end
 				k.start;
 			case 'Stop scopes'
 				k.stop;

@@ -18,6 +18,7 @@ classdef kontroller2 < handle & matlab.mixin.CustomDisplay
         data_path
         last_timestamp_logged = 0;
         data = []; % stores the data, in kontroller2 format 
+        last_outputs_written % stores values of the output channels, when last written to
 
         % hardware defined names of channels
         output_channels 
@@ -240,6 +241,13 @@ classdef kontroller2 < handle & matlab.mixin.CustomDisplay
             % generate handles for input and output dumps
             k.handles.input_dump = fopen('input.k2','W');
             k.handles.output_dump = fopen('output.k2','W');
+ 
+            % check if data is queued, and queue if needed
+            noutputs = sum(~(cellfun(@any,(cellfun(@(x) strfind(x,'ai'),{k.session_handle.Channels.ID},'UniformOutput',false)))));
+            if k.session_handle.ScansQueued == 0 && noutputs > 0
+                write_buffer = repmat(k.last_outputs_written,k.session_handle.NotifyWhenScansQueuedBelow,1);
+                queueOutputData(k.session_handle,write_buffer);
+            end
 
             k.session_handle.startBackground;
         end % end start
@@ -252,6 +260,9 @@ classdef kontroller2 < handle & matlab.mixin.CustomDisplay
             % close the dump files
             fclose(k.handles.input_dump);
             fclose(k.handles.output_dump);
+
+            % remember the last values we wrote to the device
+            k =  determineLastOutputsWritten(k);
 
             % if a data_path is configured, convert the dump into a .k2data file 
             if isempty(k.data_path)

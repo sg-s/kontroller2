@@ -30,5 +30,5 @@ k.control_mode = 'manual-control';
 k.data_path = 'c:\data\kontroller2_test.k2data';
 
 
-% k.showScopes;
-% k.showManualControl;
+k.showScopes;
+k.showManualControl;

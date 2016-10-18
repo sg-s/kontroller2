@@ -9,7 +9,6 @@
 function [k] = scopesCallback(k,~,event)
 
 % first check if there is anything new
-
 try
 	if (event.TimeStamps(end)) > k.handles.scopes.plot_data(1).XData(end)
 	else
@@ -26,7 +25,6 @@ try
 catch
 	return
 end
-
 % figure out what to plot
 for i = 1:length(k.handles.scopes.plot_data)
 	this_tag = k.handles.scopes.plot_data(i).Tag;
