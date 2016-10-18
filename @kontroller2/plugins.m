@@ -46,11 +46,14 @@ end
 if ~nargout
     for i = 1:length(p)
         if ~isempty(p(i).A_listeners) && isempty(p(i).R_listeners)
-            disp(['+ ' p(i).name '  (triggered by: DataAvailable)'])
+            cprintf('_text',  [p(i).name ' ']);
+            fprintf(' (triggered by: DataAvailable)\n')
         elseif isempty(p(i).A_listeners) && ~isempty(p(i).R_listeners)
-            disp(['+ ' p(i).name '  (triggered by: DataRequired)'])
+            cprintf('_text',  [p(i).name ' ']);
+            fprintf(' (triggered by: DataRequired)\n')
         else
-            disp(['+ ' p(i).name '  (triggered by: DataAvailable, DataRequired)'])
+            cprintf('_text',  [p(i).name ' ']);
+            fprintf(' (triggered by: DataAvailable, DataRequired)\n')
         end
         for j = 1:length(p(i).method_names)
             disp(['-> ' p(i).method_names{j}])

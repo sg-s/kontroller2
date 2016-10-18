@@ -1,12 +1,12 @@
 %% kontroller2
-% complete rewrite of the kontroller package based on a class-based interface
+% MATLAB class 
 
-classdef kontroller2 < handle
+classdef kontroller2 < handle & matlab.mixin.CustomDisplay
 
     properties
         % meta
         version_name = 'automatically-generated';
-        build_number = 'automatically-generated if you have git installed';
+        build_number = 'automatically-generated';
 
         % DAQ-specific
         sampling_rate = 1e4; % Hz
@@ -37,6 +37,42 @@ classdef kontroller2 < handle
         verbosity = 10;
 
     end % end properties 
+
+    methods (Access = protected)
+        function displayScalarObject(k)
+            url = 'https://github.com/sg-s/kontroller2/';
+            fprintf(['<a href="' url '">kontroller</a> object']);
+            fprintf([' (build ' k.build_number ')\n'])
+            fprintf(['[+] connected to ' k.daq_handle.Description '\n'])
+            fprintf(['[+] sampling rate is ' oval(k.sampling_rate) ' samples/sec\n'])
+
+            fprintf('\n')
+            cprintf('_text',  'Output Channels:\n');
+            for i = 1:length(k.output_channel_names)
+                if ~isempty(k.output_channel_names{i})
+                    fprintf(['[' k.output_channels{i} ']            ' k.output_channel_names{i} '\n'])
+                end
+            end
+            for i = 1:length(k.output_digital_channel_names)
+                if ~isempty(k.output_digital_channel_names{i})
+                    fprintf(['[' k.output_digital_channels{i} ']    ' k.output_digital_channel_names{i} '\n'])
+                end
+            end
+
+            fprintf('\n')
+            cprintf('_text',  'Input Channels:\n');
+            for i = 1:length(k.input_channel_names)
+                if ~isempty(k.input_channel_names{i})
+                    fprintf(['[' k.input_channels{i} ']            ' k.input_channel_names{i} '\n'])
+                end
+            end
+
+            fprintf('\n')
+            plugins(k)
+            
+
+        end % end displayScalarObject
+   end % end protected methods
 
     methods
         function k = kontroller2

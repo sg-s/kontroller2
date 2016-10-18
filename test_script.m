@@ -24,9 +24,11 @@ k.input_channel_names{4} = 'Test_2_In';
 k.output_channel_names{3} = 'Test_1_Out';
 k.output_channel_names{4} = 'Test_2_Out';
 
+k.output_digital_channel_names{3} = 'digt_test';
+
 k.control_mode = 'manual-control';
 k.data_path = 'c:\data\kontroller2_test.k2data';
 
 
-k.showScopes;
-k.showManualControl;
+% k.showScopes;
+% k.showManualControl;
