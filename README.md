@@ -37,7 +37,7 @@ Plugin architecture make the code highly modular, and almost everything can be r
 2. A Windows computer
 3. A compatible National Instruments DAQ system
 4. NI drivers
-5. MATLAB's DAQ toolbox
+5. MATLAB's [DAQ toolbox](https://www.mathworks.com/products/daq/)
 
 ## Installation
 
@@ -83,4 +83,4 @@ Saved data is stored in a MAT file in the variable `data`. `data` is a structure
 
 ## License 
 
-`kontroller3` is free software, under the [GPL v3](http://gplv3.fsf.org/). If you use `kontroller3`, please [write to me](http://srinivas.gs/#contact) to properly cite this. 
+`kontroller2` is free software, under the [GPL v3](http://gplv3.fsf.org/). If you use `kontroller2`, please [write to me](http://srinivas.gs/#contact) to properly cite this. 

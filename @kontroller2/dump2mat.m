@@ -45,10 +45,11 @@ output_dump = output_dump(1:length(input_dump),:);
 
 % assemble into the data field
 c = length(k.data)+1;
-use_these_names = k.output_channel_names(~cellfun(@isempty,k.output_channel_names));
+use_these_names = [k.output_channel_names(~cellfun(@isempty,k.output_channel_names)); k.output_digital_channel_names(~cellfun(@isempty,k.output_digital_channel_names))];
 for i = 1:length(use_these_names)
     k.data(c).(use_these_names{i}) = output_dump(:,i);
 end
+
 use_these_names = k.input_channel_names(~cellfun(@isempty,k.input_channel_names));
 for i = 1:length(use_these_names)
     k.data(c).(use_these_names{i}) = input_dump(:,i);
