@@ -51,29 +51,30 @@ for i = 1:length(add_these)
 end
 
 % now add the analogue outputs to the session
-add_these = k.output_channels(~cellfun(@isempty,k.output_channel_names));
-output_channel_names =  k.output_channel_names(~cellfun(@isempty,k.output_channel_names));
-for i = 1:length(add_these)
-	if k.verbosity > 1
-		cprintf('green','[INFO]')
-		cprintf('text',['Adding analogue output channel: ' add_these{i},'\n'])
+if ~strcmp(k.control_mode,'scopes-only')
+	add_these = k.output_channels(~cellfun(@isempty,k.output_channel_names));
+	output_channel_names =  k.output_channel_names(~cellfun(@isempty,k.output_channel_names));
+	for i = 1:length(add_these)
+		if k.verbosity > 1
+			cprintf('green','[INFO]')
+			cprintf('text',['Adding analogue output channel: ' add_these{i},'\n'])
+		end
+	    ch = k.session_handle.addAnalogOutputChannel(k.daq_handle.ID,add_these{i},'Voltage');
+	    ch.Name = output_channel_names{i};
 	end
-    ch = k.session_handle.addAnalogOutputChannel(k.daq_handle.ID,add_these{i},'Voltage');
-    ch.Name = output_channel_names{i};
-end
 
-% now add the digital outputs to the session
-add_these = k.output_digital_channels(~cellfun(@isempty,k.output_digital_channel_names));
-output_digital_channel_names =  k.output_digital_channel_names(~cellfun(@isempty,k.output_digital_channel_names));
-for i = 1:length(add_these)
-	if k.verbosity > 1
-		cprintf('green','[INFO] ')
-		cprintf('text',['Adding digital output channel: ' add_these{i},'\n'])
+	% now add the digital outputs to the session
+	add_these = k.output_digital_channels(~cellfun(@isempty,k.output_digital_channel_names));
+	output_digital_channel_names =  k.output_digital_channel_names(~cellfun(@isempty,k.output_digital_channel_names));
+	for i = 1:length(add_these)
+		if k.verbosity > 1
+			cprintf('green','[INFO] ')
+			cprintf('text',['Adding digital output channel: ' add_these{i},'\n'])
+		end
+	    ch = k.session_handle.addDigitalChannel(k.daq_handle.ID,add_these{i},'OutputOnly');
+	    ch.Name = output_digital_channel_names{i};
 	end
-    ch = k.session_handle.addDigitalChannel(k.daq_handle.ID,add_these{i},'OutputOnly');
-    ch.Name = output_digital_channel_names{i};
 end
-
 
 
 % make it run as fast as possible (on this computer, that is 10Hz)
@@ -103,6 +104,9 @@ end
 if isempty(k.control_mode)
 	return
 else
+	if strcmp(k.control_mode,'scopes-only')
+		return
+	end
 	configure_this = find(cellfun(@any,(cellfun(@(x) strfind(x,k.control_mode),{p.name},'UniformOutput',false)))); % so fucking complicated. all we want to do is find out which plugin has the same name as k.control_mode
 	eval(['temp_handle=@k.',p(configure_this).R_listeners,';'])
 	k.handles.dataReqListener{configure_this} = k.session_handle.addlistener('DataRequired',temp_handle);

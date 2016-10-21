@@ -29,6 +29,7 @@ k.output_digital_channel_names{3} = 'digt_test';
 k.control_mode = 'manual-control';
 k.data_path = 'c:\data\kontroller2_test.k2data';
 
+k.reconfigureSession;
 
 k.showScopes;
 k.showManualControl;

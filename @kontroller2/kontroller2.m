@@ -15,6 +15,7 @@ classdef kontroller2 < handle & matlab.mixin.CustomDisplay
 
         % operations
         control_mode
+        save_data = true;
         data_path
         last_timestamp_logged = 0;
         data = []; % stores the data, in kontroller2 format 
@@ -216,7 +217,12 @@ classdef kontroller2 < handle & matlab.mixin.CustomDisplay
 
             % first, assign it and get that out of the way
             k.input_channel_names = value;
-            reconfigureSession(k);
+
+            % figure out who's calling
+            v = dbstack;
+            if any(strcmp('inputConfigCallback',{v.name}))
+                reconfigureSession(k);
+            end
         end
 
         function k = set.output_channel_names(k,value)
@@ -228,7 +234,12 @@ classdef kontroller2 < handle & matlab.mixin.CustomDisplay
 
             % first, assign it and get that out of the way
             k.output_channel_names = value;
-            reconfigureSession(k);
+
+            % figure out who's calling
+            v = dbstack;
+            if any(strcmp('outputConfigCallback',{v.name}))
+                reconfigureSession(k);
+            end
         end
 
         function k = start(k)

@@ -10,6 +10,10 @@ p = plugins(k);
 use_these = (~cellfun(@isempty,{p.R_listeners}));
 names = {p.name};
 
+% also add a "scopes-only" mode
+names = [names 'scopes-only'];
+use_these = [use_these true];
+
 if nargin == 1
 	% create a small figure if needed 
 	figure_exists = true;
