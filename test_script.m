@@ -1,6 +1,5 @@
 % test script, used for development
 
-delete('current_state.k2')
 
 cd('c:\')
 try
